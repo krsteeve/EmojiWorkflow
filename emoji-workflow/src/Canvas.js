@@ -73,18 +73,19 @@ export default class Canvas extends Component {
         var scaleX = this.props.eyeScaleFactor;
         var scaleY = this.props.eyeScaleFactor;
         if (this.props.eyeSrcAspectRatio < 1) {
-          scaleX = this.props.eyeSrcAspectRatio;
+          scaleX = scaleX * this.props.eyeSrcAspectRatio;
         } else if (this.props.eyeSrcAspectRatio > 1) {
-          scaleY = 1/this.props.eyeSrcAspectRatio;
+          scaleY = scaleY * 1/this.props.eyeSrcAspectRatio;
         }
 
         var scaleXLeft = this.props.mirrorLeftEye ? -scaleX : scaleX;
         var scaleXRight = this.props.mirrorRightEye ? -scaleX : scaleX;
 
-        var rotation = this.props.eyeRotation;
+        var rotationLeft = this.props.mirrorLeftEye ? this.props.eyeRotation : -this.props.eyeRotation;
+        var rotationRight = this.props.mirrorRightEye ? -this.props.eyeRotation : this.props.eyeRotation;
 
-        renderer.drawScene(gl, this.programInfo, this.buffers, this.eyeTexture, [scaleXLeft, scaleY, 1.0], [-x, y, 0], -rotation);
-        renderer.drawScene(gl, this.programInfo, this.buffers, this.eyeTexture, [scaleXRight, scaleY, 1.0], [x, y, 0], rotation);
+        renderer.drawScene(gl, this.programInfo, this.buffers, this.eyeTexture, [scaleXLeft, scaleY, 1.0], [-x, y, 0], rotationLeft);
+        renderer.drawScene(gl, this.programInfo, this.buffers, this.eyeTexture, [scaleXRight, scaleY, 1.0], [x, y, 0], rotationRight);
       }
 
       this.rafHandle = raf(this.renderGlScene.bind(this, gl, programs));
