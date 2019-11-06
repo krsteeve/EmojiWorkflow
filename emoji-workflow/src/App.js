@@ -17,14 +17,14 @@ export default class App extends React.Component {
       <div classname="Top">
         
         <div className="App">
-          <div>Junimo Generator <br/>
-          <Canvas 
-            tintColor={this.state.color} 
-            tintTexture={this.state.image} 
-            normalnessRatio={this.state.normalness / 100}
-            brightnessRatio={this.state.brightness / 100}
-            darknessRatio={this.state.darkness / 100}
-          />
+          <div>Emoji Workflow<br/>
+            <Canvas 
+              tintColor={this.state.color} 
+              tintTexture={this.state.image} 
+              normalnessRatio={this.state.normalness / 100}
+              brightnessRatio={this.state.brightness / 100}
+              darknessRatio={this.state.darkness / 100}
+            />
           </div>
           <div className="ImageSettings">
               Main areas: {this.state.normalness} <br/>
@@ -33,7 +33,7 @@ export default class App extends React.Component {
               <Slider axis="x" x={this.state.brightness} xmin={-100} onChange={({x}) => this.setState({brightness:x})}/><br/>
               Dark areas: {this.state.darkness} <br/>
               <Slider axis="x" x={this.state.darkness} xmin={-100} onChange={({x}) => this.setState({darkness:x})}/>
-            </div>
+          </div>
         </div>
       </div>
     );

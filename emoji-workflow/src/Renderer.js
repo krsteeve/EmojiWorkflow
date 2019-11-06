@@ -93,18 +93,15 @@ export function getTextureShaderProgram(gl) {
   const vsSource = `
   attribute vec4 aVertexPosition;
   attribute vec2 aTextureCoord;
-  attribute vec2 aTintTextureCoord;
 
   uniform mat4 uModelViewMatrix;
   uniform mat4 uProjectionMatrix;
 
   varying highp vec2 vTextureCoord;
-  varying highp vec2 vTintTextureCoord;
 
   void main(void) {
     gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
     vTextureCoord = aTextureCoord;
-    vTintTextureCoord = aTintTextureCoord;
   }
   `;
 
@@ -114,80 +111,8 @@ export function getTextureShaderProgram(gl) {
     precision highp float;
 
     varying highp vec2 vTextureCoord;
-    varying highp vec2 vTintTextureCoord;
 
     uniform sampler2D uSampler;
-    uniform sampler2D uTintSampler;
-
-    uniform highp vec4 uTintColor;
-    uniform float uBrightness;
-
-    uniform bool uUseTintTexture;
-
-    vec3 rgbToHsl(vec3 rgb) {
-      float maxVal = max(max(rgb.x, rgb.y), rgb.z);
-      float minVal = min(min(rgb.x, rgb.y), rgb.z);
-
-      float L = (maxVal + minVal) / 2.0;
-      float H = 0.0;
-      float S = 0.0;
-
-      if (maxVal != minVal) {
-        float diff = maxVal - minVal;
-        S = L > 0.5 ? (diff / (2.0 - maxVal - minVal)) : (diff / (maxVal + minVal));
-
-        if (maxVal == rgb.x) {
-          H = (rgb.y - rgb.z) / diff + (rgb.y < rgb.z ? 6.0 : 0.0);
-        } else if (maxVal == rgb.y) {
-          H = (rgb.z - rgb.x) / diff + 2.0;
-        } else {
-          H = (rgb.x - rgb.y) / diff + 4.0;
-        }
-
-        H /= 6.0;
-      }
-
-      return vec3(H, S, L);
-    }
-
-    float hueToRgb(float p, float q, float t) {
-      if (t < 0.0) t += 1.0;
-      if (t > 1.0) t -= 1.0;
-
-      if (t < 1.0 / 6.0) return p + (q - p) * 6.0 * t;
-      if (t < 1.0 / 2.0) return q;
-      if (t < 2.0 / 3.0) return p + (q - p) * (2.0 / 3.0 - t) * 6.0;
-
-      return p;
-    }
-
-    vec3 hslToRgb(vec3 hsl) {
-      float R = 0.0;
-      float G = 0.0;
-      float B = 0.0;
-
-      if (abs(hsl.y) < 0.000001) {
-        R = hsl.z;
-        G = hsl.z;
-        B = hsl.z;
-      } else {
-        float Q = hsl.z < 0.5 ? hsl.z * (1.0 + hsl.y) : hsl.z + hsl.y - (hsl.z * hsl.y);
-        float P = 2.0 * hsl.z - Q;
-
-        R = hueToRgb(P, Q, hsl.x + 1.0 / 3.0);
-        G = hueToRgb(P, Q, hsl.x);
-        B = hueToRgb(P, Q, hsl.x - 1.0 / 3.0);
-      }
-
-      return vec3(R, G, B);
-    }
-
-    vec4 adjustBrightness(vec4 color, float brightness) {
-      vec3 hsl = rgbToHsl(vec3(color));
-      hsl.z += (hsl.z * brightness);
-
-      return vec4(hslToRgb(hsl), color.w);
-    }
 
     void main(void) {
       gl_FragColor = texture2D(uSampler, vTextureCoord);
@@ -206,16 +131,11 @@ export function getTextureShaderProgram(gl) {
     attribLocations: {
       vertexPosition: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
       textureCoord: gl.getAttribLocation(shaderProgram, 'aTextureCoord'),
-      tintTextureCoord: gl.getAttribLocation(shaderProgram, 'aTintTextureCoord'),
     },
     uniformLocations: {
       projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
       modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
       uSampler: gl.getUniformLocation(shaderProgram, 'uSampler'),
-      uTintSampler: gl.getUniformLocation(shaderProgram, 'uTintSampler'),
-      tintColor: gl.getUniformLocation(shaderProgram, 'uTintColor'),
-      brightness: gl.getUniformLocation(shaderProgram, 'uBrightness'),
-      useTintTexture: gl.getUniformLocation(shaderProgram, 'uUseTintTexture'),
     },
   };
 }
@@ -224,7 +144,7 @@ export function getTextureShaderProgram(gl) {
 // Initialize a texture and load an image.
 // When the image finished loading copy it into the texture.
 //
-export function loadTexture(gl, url, minMagFilter, textureCoordBuffer) {
+export function loadTexture(gl, url, minMagFilter) {
   const texture = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, texture);
 
@@ -265,29 +185,6 @@ export function loadTexture(gl, url, minMagFilter, textureCoordBuffer) {
        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, minMagFilter);
        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, minMagFilter);
     }
-
-    if (textureCoordBuffer != null) {
-      const aspect = image.width / image.height;
-
-      var tintTextureCoordinates;
-      if (aspect < 1.0) {
-        tintTextureCoordinates = [
-          1.0,  0.0,
-          0.0,  0.0,
-          0.0,  aspect,
-          1.0,  aspect,
-        ];
-      } else {
-        tintTextureCoordinates = [
-          1.0 / aspect,  0.0,
-          0.0,  0.0,
-          0.0,  1.0,
-          1.0 / aspect,  1.0,
-        ];
-      }
-
-      updateTextureCoordinates(gl, textureCoordBuffer, tintTextureCoordinates);
-    }
   };
   image.src = url;
 
@@ -309,7 +206,7 @@ export function drawStart(gl) {
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 }
 
-export function drawScene(gl, programInfo, buffers, texture, tint, tintTexture, brightness) {
+export function drawScene(gl, programInfo, buffers, texture) {
   // Create a perspective matrix, a special matrix that is
   // used to simulate the distortion of perspective in a camera.
   // Our field of view is 45 degrees, with a width/height
@@ -384,25 +281,6 @@ export function drawScene(gl, programInfo, buffers, texture, tint, tintTexture, 
         programInfo.attribLocations.textureCoord);
   }
 
-  // Tell WebGL how to pull out the texture coordinates from
-  // the texture coordinate buffer into the textureCoord attribute.
-  if (tintTexture != null) {
-    const numComponents = 2;
-    const type = gl.FLOAT;
-    const normalize = false;
-    const stride = 0;
-    const offset = 0;
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.tintTextureCoord);
-    gl.vertexAttribPointer(
-        programInfo.attribLocations.tintTextureCoord,
-        numComponents,
-        type,
-        normalize,
-        stride,
-        offset);
-    gl.enableVertexAttribArray(programInfo.attribLocations.tintTextureCoord);
-  }
-
   // Tell WebGL which indices to use to index the vertices
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.indices);
 
@@ -415,19 +293,9 @@ export function drawScene(gl, programInfo, buffers, texture, tint, tintTexture, 
   gl.uniformMatrix4fv(programInfo.uniformLocations.projectionMatrix, false, projectionMatrix);
   gl.uniformMatrix4fv(programInfo.uniformLocations.modelViewMatrix, false, modelViewMatrix);
 
-  gl.uniform4f(programInfo.uniformLocations.tintColor, tint.r / 255, tint.g / 255, tint.b / 255, 1);
-  gl.uniform1f(programInfo.uniformLocations.brightness, brightness);
-  gl.uniform1i(programInfo.uniformLocations.useTintTexture, tintTexture != null);
-
   gl.activeTexture(gl.TEXTURE0);
   gl.bindTexture(gl.TEXTURE_2D, texture);
   gl.uniform1i(programInfo.uniformLocations.uSampler, 0);
-
-  if (tintTexture != null) {
-    gl.activeTexture(gl.TEXTURE0 + 1);
-    gl.bindTexture(gl.TEXTURE_2D, tintTexture);
-    gl.uniform1i(programInfo.uniformLocations.uTintSampler, 1);
-  }
 
   {
     const offset = 0;
