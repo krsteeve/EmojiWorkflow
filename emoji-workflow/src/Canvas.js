@@ -12,7 +12,7 @@ export default class Canvas extends Component {
  
   componentDidMount() {
       const canvas = document.querySelector('#glcanvas');
-      const gl = canvas.getContext('webgl');
+      const gl = canvas.getContext('webgl', {premultipliedAlpha: false});
 
         // If we don't have a GL context, give up now
         if (!gl) {
@@ -28,10 +28,10 @@ export default class Canvas extends Component {
         // objects we'll be drawing.
         this.buffers = renderer.initBuffers(gl);
       
-        this.bgTexture = renderer.loadTexture(gl, blankEyes, gl.LINEAR)
+        this.bgTexture = renderer.loadTexture(gl, blankEyes)
       
         gl.enable(gl.BLEND);
-        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
     }
 
     componentDidUpdate(oldProps) {
@@ -81,7 +81,7 @@ export default class Canvas extends Component {
  
     render() {
         return (
-          <canvas id="glcanvas" width="160" height="160" style={{backgroundColor:'white'}}/>
+          <canvas id="glcanvas" width="160" height="160"/>
         );
     }
 }
