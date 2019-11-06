@@ -47,10 +47,6 @@ export default class App extends React.Component {
     }
   }
 
-  onMirrorRightEyeToggle = e => {
-
-  }
-
   render() {
     return (
       <div classname="Top">
