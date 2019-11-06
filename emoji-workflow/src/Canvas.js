@@ -55,7 +55,7 @@ export default class Canvas extends Component {
  
     renderGlScene(gl, programs) {
       renderer.drawStart(gl);
-      renderer.drawScene(gl, this.programInfo, this.buffers, this.bgTexture, [1.0, 1.0, 1.0], [0, 0, 0]);
+      renderer.drawScene(gl, this.programInfo, this.buffers, this.bgTexture, [1.0, 1.0, 1.0], [0, 0, 0], 0);
 
       if (this.eyeTexture) {
         var x = this.props.eyeXOffset;
@@ -72,8 +72,10 @@ export default class Canvas extends Component {
         var scaleXLeft = this.props.mirrorLeftEye ? -scaleX : scaleX;
         var scaleXRight = this.props.mirrorRightEye ? -scaleX : scaleX;
 
-        renderer.drawScene(gl, this.programInfo, this.buffers, this.eyeTexture, [scaleXLeft, scaleY, 1.0], [-x, y, 0]);
-        renderer.drawScene(gl, this.programInfo, this.buffers, this.eyeTexture, [scaleXRight, scaleY, 1.0], [x, y, 0]);
+        var rotation = this.props.eyeRotation;
+
+        renderer.drawScene(gl, this.programInfo, this.buffers, this.eyeTexture, [scaleXLeft, scaleY, 1.0], [-x, y, 0], -rotation);
+        renderer.drawScene(gl, this.programInfo, this.buffers, this.eyeTexture, [scaleXRight, scaleY, 1.0], [x, y, 0], rotation);
       }
 
       this.rafHandle = raf(this.renderGlScene.bind(this, gl, programs));

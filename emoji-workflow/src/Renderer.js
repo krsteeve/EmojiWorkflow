@@ -185,7 +185,7 @@ export function loadTexture(gl, url) {
        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR_MIPMAP_NEAREST);
+       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     }
   };
   image.src = url;
@@ -208,7 +208,7 @@ export function drawStart(gl) {
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 }
 
-export function drawScene(gl, programInfo, buffers, texture, scale, translate) {
+export function drawScene(gl, programInfo, buffers, texture, scale, translate, rotation) {
   // Create a perspective matrix, a special matrix that is
   // used to simulate the distortion of perspective in a camera.
   // Our field of view is 45 degrees, with a width/height
@@ -243,7 +243,7 @@ export function drawScene(gl, programInfo, buffers, texture, scale, translate) {
 
   mat4.scale(modelViewMatrix, modelViewMatrix, scale);
 
-  
+  mat4.rotateZ(modelViewMatrix, modelViewMatrix, rotation);
 
   // Tell WebGL how to pull out the positions from the position
   // buffer into the vertexPosition attribute.

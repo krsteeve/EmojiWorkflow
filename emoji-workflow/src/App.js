@@ -10,6 +10,7 @@ export default class App extends React.Component {
     yOffset:0,
     xOffset:0,
     scaleFactor:100,
+    rotation:0,
     mirrorRightEye:false,
     mirrorLeftEye:false,
   }
@@ -54,6 +55,7 @@ export default class App extends React.Component {
               eyeXOffset={this.state.xOffset / 100}
               eyeYOffset={this.state.yOffset / 100}
               eyeScaleFactor={this.state.scaleFactor / 100}
+              eyeRotation={this.state.rotation * Math.PI / 180}
               mirrorRightEye={this.state.mirrorRightEye}
               mirrorLeftEye={this.state.mirrorLeftEye}
             />
@@ -72,6 +74,8 @@ export default class App extends React.Component {
               <Slider axis="x" x={this.state.yOffset} xmin={-100} xmax={100} onChange={({x}) => this.setState({yOffset:x})}/><br/>
               Scale Factor: {this.state.scaleFactor}%<br/>
               <Slider axis="x" x={this.state.scaleFactor} xmin={0} xmax={100} onChange={({x}) => this.setState({scaleFactor:x})}/><br/>
+              Rotation:  {this.state.rotation}&deg;<br/>
+              <Slider axis="x" x={this.state.rotation} xmin={-45} xmax={45} onChange={({x}) => this.setState({rotation:x})}/><br/>
               Mirror Right Eye: <input type="checkbox" onChange={(e) => this.setState({mirrorRightEye:e.target.checked})}/><br/>
               Mirror Left Eye: <input type="checkbox" onChange={(e) => this.setState({mirrorLeftEye:e.target.checked})}/><br/>
           </div>
