@@ -1,28 +1,29 @@
 {
   "files": {
     "main.css": "/EmojiWorkflow/static/css/main.d83df609.chunk.css",
-    "main.js": "/EmojiWorkflow/static/js/main.3078ce9d.chunk.js",
-    "main.js.map": "/EmojiWorkflow/static/js/main.3078ce9d.chunk.js.map",
+    "main.js": "/EmojiWorkflow/static/js/main.64c57b93.chunk.js",
+    "main.js.map": "/EmojiWorkflow/static/js/main.64c57b93.chunk.js.map",
     "runtime-main.js": "/EmojiWorkflow/static/js/runtime-main.db726bb7.js",
     "runtime-main.js.map": "/EmojiWorkflow/static/js/runtime-main.db726bb7.js.map",
     "static/css/2.5d2c437e.chunk.css": "/EmojiWorkflow/static/css/2.5d2c437e.chunk.css",
-    "static/js/2.f50f68ce.chunk.js": "/EmojiWorkflow/static/js/2.f50f68ce.chunk.js",
-    "static/js/2.f50f68ce.chunk.js.map": "/EmojiWorkflow/static/js/2.f50f68ce.chunk.js.map",
+    "static/js/2.35ca73f7.chunk.js": "/EmojiWorkflow/static/js/2.35ca73f7.chunk.js",
+    "static/js/2.35ca73f7.chunk.js.map": "/EmojiWorkflow/static/js/2.35ca73f7.chunk.js.map",
     "index.html": "/EmojiWorkflow/index.html",
-    "precache-manifest.beec0e1ef52254f7462c3af88735ca44.js": "/EmojiWorkflow/precache-manifest.beec0e1ef52254f7462c3af88735ca44.js",
+    "precache-manifest.d913012ff822956798508a77f87a281d.js": "/EmojiWorkflow/precache-manifest.d913012ff822956798508a77f87a281d.js",
     "service-worker.js": "/EmojiWorkflow/service-worker.js",
     "static/css/2.5d2c437e.chunk.css.map": "/EmojiWorkflow/static/css/2.5d2c437e.chunk.css.map",
     "static/css/main.d83df609.chunk.css.map": "/EmojiWorkflow/static/css/main.d83df609.chunk.css.map",
     "static/media/blank_eyes.png": "/EmojiWorkflow/static/media/blank_eyes.6585e257.png",
     "static/media/blank_joy.png": "/EmojiWorkflow/static/media/blank_joy.d7309f23.png",
     "static/media/index.css": "/EmojiWorkflow/static/media/checkbcd1a436590360ed53ac2f46c76e43e4.bcd1a436.png",
+    "static/media/lasagna_face.png": "/EmojiWorkflow/static/media/lasagna_face.1b36eb6a.png",
     "static/media/nice_blank_eyes.png": "/EmojiWorkflow/static/media/nice_blank_eyes.3c4c32b9.png"
   },
   "entrypoints": [
     "static/js/runtime-main.db726bb7.js",
     "static/css/2.5d2c437e.chunk.css",
-    "static/js/2.f50f68ce.chunk.js",
+    "static/js/2.35ca73f7.chunk.js",
     "static/css/main.d83df609.chunk.css",
-    "static/js/main.3078ce9d.chunk.js"
+    "static/js/main.64c57b93.chunk.js"
   ]
 }
