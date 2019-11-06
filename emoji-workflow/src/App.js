@@ -2,10 +2,18 @@ import React from 'react';
 import './App.css';
 import Canvas from './Canvas';
 import Slider from 'react-input-slider';
+import ImagePicker from 'react-image-picker'
+import 'react-image-picker/dist/index.css'
+
+import blankEyes from './blank_eyes.png'
+import niceBlankEyes from './nice_blank_eyes.png'
+
+const images = [blankEyes, niceBlankEyes];
 
 export default class App extends React.Component {
   state = {
     src: null,
+    backgroundImage:blankEyes,
     aspectRatio:1,
     yOffset:0,
     xOffset:0,
@@ -49,7 +57,8 @@ export default class App extends React.Component {
         
         <div className="App">
           <div>Emoji Workflow<br/>
-            <Canvas 
+            <Canvas
+              backgroundImage={this.state.backgroundImage}
               eyeSrc={this.state.src}
               eyeSrcAspectRatio={this.state.aspectRatio}
               eyeXOffset={this.state.xOffset / 100}
@@ -79,6 +88,13 @@ export default class App extends React.Component {
               Mirror Right Eye: <input type="checkbox" onChange={(e) => this.setState({mirrorRightEye:e.target.checked})}/><br/>
               Mirror Left Eye: <input type="checkbox" onChange={(e) => this.setState({mirrorLeftEye:e.target.checked})}/><br/>
           </div>
+        </div>
+        <div>
+          <ImagePicker
+            images={images.map((image, i) => ({src: image, value: i}))}
+            onPick={ (image) => {
+              this.setState({backgroundImage:image.src});
+            }}/>
         </div>
       </div>
     );

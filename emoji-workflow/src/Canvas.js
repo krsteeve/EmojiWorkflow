@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import raf from 'raf';
 import * as renderer from './Renderer'
-import blankEyes from './blank_eyes.png'
 
 var Color = require('color');
  
@@ -28,20 +27,30 @@ export default class Canvas extends Component {
         // objects we'll be drawing.
         this.buffers = renderer.initBuffers(gl);
       
-        this.bgTexture = renderer.loadTexture(gl, blankEyes)
+        this.bgTexture = renderer.loadTexture(gl, this.props.backgroundImage)
       
         gl.enable(gl.BLEND);
         gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
     }
 
     componentDidUpdate(oldProps) {
-
       if (oldProps.eyeSrc != this.props.eyeSrc) {
-        this.updateTexture();
+        this.updateEyeTexture();
+      }
+
+      if (oldProps.backgroundImage != this.props.backgroundImage) {
+        this.updateBackgroundTexture();
       }
     }
 
-    updateTexture() {
+    updateBackgroundTexture() {
+      const canvas = document.querySelector('#glcanvas');
+      const gl = canvas.getContext('webgl');
+
+      this.bgTexture = renderer.loadTexture(gl, this.props.backgroundImage)
+    }
+
+    updateEyeTexture() {
       var eyeSrc = this.props.eyeSrc;
       if (eyeSrc != null) {
         const canvas = document.querySelector('#glcanvas');
