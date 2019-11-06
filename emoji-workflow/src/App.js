@@ -7,8 +7,9 @@ import 'react-image-picker/dist/index.css'
 
 import blankEyes from './blank_eyes.png'
 import niceBlankEyes from './nice_blank_eyes.png'
+import blankJoy from './blank_joy.png'
 
-const images = [blankEyes, niceBlankEyes];
+const images = [blankEyes, niceBlankEyes, blankJoy];
 
 export default class App extends React.Component {
   state = {
