@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/EmojiWorkflow/static/css/main.d83df609.chunk.css",
+    "main.js": "/EmojiWorkflow/static/js/main.7292dc20.chunk.js",
+    "main.js.map": "/EmojiWorkflow/static/js/main.7292dc20.chunk.js.map",
+    "runtime-main.js": "/EmojiWorkflow/static/js/runtime-main.db726bb7.js",
+    "runtime-main.js.map": "/EmojiWorkflow/static/js/runtime-main.db726bb7.js.map",
+    "static/css/2.5d2c437e.chunk.css": "/EmojiWorkflow/static/css/2.5d2c437e.chunk.css",
+    "static/js/2.092b4398.chunk.js": "/EmojiWorkflow/static/js/2.092b4398.chunk.js",
+    "static/js/2.092b4398.chunk.js.map": "/EmojiWorkflow/static/js/2.092b4398.chunk.js.map",
+    "index.html": "/EmojiWorkflow/index.html",
+    "precache-manifest.e205b6b7d60e8ed2cb7ba63566eb45f4.js": "/EmojiWorkflow/precache-manifest.e205b6b7d60e8ed2cb7ba63566eb45f4.js",
+    "service-worker.js": "/EmojiWorkflow/service-worker.js",
+    "static/css/2.5d2c437e.chunk.css.map": "/EmojiWorkflow/static/css/2.5d2c437e.chunk.css.map",
+    "static/css/main.d83df609.chunk.css.map": "/EmojiWorkflow/static/css/main.d83df609.chunk.css.map",
+    "static/media/blank_eyes.png": "/EmojiWorkflow/static/media/blank_eyes.6585e257.png",
+    "static/media/index.css": "/EmojiWorkflow/static/media/checkbcd1a436590360ed53ac2f46c76e43e4.bcd1a436.png",
+    "static/media/nice_blank_eyes.png": "/EmojiWorkflow/static/media/nice_blank_eyes.3c4c32b9.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.db726bb7.js",
+    "static/css/2.5d2c437e.chunk.css",
+    "static/js/2.092b4398.chunk.js",
+    "static/css/main.d83df609.chunk.css",
+    "static/js/main.7292dc20.chunk.js"
+  ]
+}
