@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import Canvas from './Canvas';
+import CanvasAtReaction from './CanvasAtReaction'
 import Slider from 'react-input-slider';
 import ImagePicker from 'react-image-picker'
 import 'react-image-picker/dist/index.css'
@@ -14,6 +15,8 @@ export default class App extends React.Component {
     src: null,
     backgroundImage:blankEyes,
     aspectRatio:1,
+    atReactionImage:null,
+    atReactionAspectRatio:1,
     yOffset:0,
     xOffset:0,
     scaleFactor:100,
@@ -53,7 +56,7 @@ export default class App extends React.Component {
     }
   }
 
-  onSelectBGFile = e => {
+  onSelectAtReactionFile = e => {
     if (e.target.files && e.target.files.length > 0) {
       const reader = new FileReader()
       reader.addEventListener(
@@ -66,7 +69,8 @@ export default class App extends React.Component {
       
           image.onload = () => {
               this.setState({
-                backgroundImage: reader.result,
+                atReactionImage: reader.result,
+                atReactionAspectRatio: image.width / image.height,
               })
           };
         },
@@ -80,7 +84,6 @@ export default class App extends React.Component {
   render() {
     return (
       <div classname="Top">
-        
         <div className="App">
           <div>Emoji Workflow<br/>
             <Canvas
@@ -116,6 +119,7 @@ export default class App extends React.Component {
           </div>
         </div>
         <div>
+          Choose a background image:<br/>
           <ImagePicker
             images={images.map((image, i) => ({src: image, value: i}))}
             onPick={ (image) => {
@@ -125,6 +129,15 @@ export default class App extends React.Component {
         <div>
           Or choose a custom image:
           <input type="file" onChange={this.onSelectBGFile} style={{alignSelf:'top'}}/>
+        </div>
+        <div class="App">
+            <div>At Reaction Workflow<br/>
+              <CanvasAtReaction
+                backgroundImage={this.state.atReactionImage}
+                aspectRatio={this.state.atReactionAspectRatio}
+              />
+            </div>
+            <input type="file" onChange={this.onSelectAtReactionFile} style={{alignSelf:'top'}}/>
         </div>
       </div>
     );

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import raf from 'raf';
 import * as renderer from './Renderer'
+
+import atReaction from './at_reaction.png'
  
 export default class Canvas extends Component {
 
@@ -8,7 +10,7 @@ export default class Canvas extends Component {
   }
  
   componentDidMount() {
-      const canvas = document.querySelector('#glcanvas');
+      const canvas = document.querySelector('#glcanvas-atreaction');
       const gl = canvas.getContext('webgl', {premultipliedAlpha: false});
 
         // If we don't have a GL context, give up now
@@ -25,7 +27,8 @@ export default class Canvas extends Component {
         // objects we'll be drawing.
         this.buffers = renderer.initBuffers(gl);
       
-        this.bgTexture = renderer.loadTexture(gl, this.props.backgroundImage)
+        //this.bgTexture = renderer.loadTexture(gl, this.props.backgroundImage)
+        this.atReactionTexture = renderer.loadTexture(gl, atReaction);
       
         gl.enable(gl.BLEND);
         gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
@@ -42,7 +45,7 @@ export default class Canvas extends Component {
     }
 
     updateBackgroundTexture() {
-      const canvas = document.querySelector('#glcanvas');
+      const canvas = document.querySelector('#glcanvas-atreaction');
       const gl = canvas.getContext('webgl');
 
       this.bgTexture = renderer.loadTexture(gl, this.props.backgroundImage)
@@ -51,7 +54,7 @@ export default class Canvas extends Component {
     updateEyeTexture() {
       var eyeSrc = this.props.eyeSrc;
       if (eyeSrc != null) {
-        const canvas = document.querySelector('#glcanvas');
+        const canvas = document.querySelector('#glcanvas-atreaction');
         const gl = canvas.getContext('webgl');
 
         this.eyeTexture = renderer.loadTexture(gl, eyeSrc, gl.LINEAR);
@@ -62,36 +65,27 @@ export default class Canvas extends Component {
  
     renderGlScene(gl, programs) {
       renderer.drawStart(gl);
-      renderer.drawScene(gl, this.programInfo, this.buffers, this.bgTexture, [1.0, 1.0, 1.0], [0, 0, 0], 0);
 
-      if (this.eyeTexture) {
-        var x = this.props.eyeXOffset;
-        var y = this.props.eyeYOffset;
-
-        var scaleX = this.props.eyeScaleFactor;
-        var scaleY = this.props.eyeScaleFactor;
-        if (this.props.eyeSrcAspectRatio < 1) {
-          scaleX = scaleX * this.props.eyeSrcAspectRatio;
-        } else if (this.props.eyeSrcAspectRatio > 1) {
-          scaleY = scaleY * 1/this.props.eyeSrcAspectRatio;
+      if (this.bgTexture != null) {
+        var scaleX = 1.0;
+        var scaleY = 1.0;
+        if (this.props.aspectRatio < 1) {
+          scaleX = scaleX * this.props.aspectRatio;
+        } else if (this.props.aspectRatio > 1) {
+          scaleY = scaleY * 1/this.props.aspectRatio;
         }
 
-        var scaleXLeft = this.props.mirrorLeftEye ? -scaleX : scaleX;
-        var scaleXRight = this.props.mirrorRightEye ? -scaleX : scaleX;
-
-        var rotationLeft = this.props.mirrorLeftEye ? this.props.eyeRotation : -this.props.eyeRotation;
-        var rotationRight = this.props.mirrorRightEye ? -this.props.eyeRotation : this.props.eyeRotation;
-
-        renderer.drawScene(gl, this.programInfo, this.buffers, this.eyeTexture, [scaleXLeft, scaleY, 1.0], [-x, y, 0], rotationLeft);
-        renderer.drawScene(gl, this.programInfo, this.buffers, this.eyeTexture, [scaleXRight, scaleY, 1.0], [x, y, 0], rotationRight);
+        renderer.drawScene(gl, this.programInfo, this.buffers, this.bgTexture, [scaleX, scaleY, 1.0], [0, 0, 0], 0);
       }
+
+      renderer.drawScene(gl, this.programInfo, this.buffers, this.atReactionTexture, [.5, .5, 1.0], [-.5, -.6, 0], 0);
 
       this.rafHandle = raf(this.renderGlScene.bind(this, gl, programs));
   }
  
     render() {
         return (
-          <canvas id="glcanvas" width="160" height="160"/>
+          <canvas id="glcanvas-atreaction" width="160" height="160"/>
         );
     }
 }
