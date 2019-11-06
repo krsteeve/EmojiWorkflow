@@ -5,11 +5,9 @@ import Slider from 'react-input-slider';
 import ImagePicker from 'react-image-picker'
 import 'react-image-picker/dist/index.css'
 
-import blankEyes from './blank_eyes.png'
-import niceBlankEyes from './nice_blank_eyes.png'
-import blankJoy from './blank_joy.png'
+import blankEyes from './faceImages/blank_eyes.png'
 
-const images = [blankEyes, niceBlankEyes, blankJoy];
+var images = [];
 
 export default class App extends React.Component {
   state = {
@@ -22,6 +20,13 @@ export default class App extends React.Component {
     rotation:0,
     mirrorRightEye:false,
     mirrorLeftEye:false,
+  }
+
+  importAll(r) {
+    return r.keys().map(r);
+  }
+  componentWillMount() {
+    images = this.importAll(require.context('./faceImages/', false, /\.(png|jpe?g|svg)$/));
   }
 
   onSelectFile = e => {
@@ -47,6 +52,30 @@ export default class App extends React.Component {
       reader.readAsDataURL(e.target.files[0])
     }
   }
+
+  onSelectBGFile = e => {
+    if (e.target.files && e.target.files.length > 0) {
+      const reader = new FileReader()
+      reader.addEventListener(
+        'load',
+        () =>
+        {
+          var image = new Image();
+
+          image.src = reader.result;
+      
+          image.onload = () => {
+              this.setState({
+                backgroundImage: reader.result,
+              })
+          };
+        },
+        false
+      )
+      reader.readAsDataURL(e.target.files[0])
+    }
+  }
+
 
   render() {
     return (
@@ -92,6 +121,10 @@ export default class App extends React.Component {
             onPick={ (image) => {
               this.setState({backgroundImage:image.src});
             }}/>
+        </div>
+        <div>
+          Or choose a custom image:
+          <input type="file" onChange={this.onSelectBGFile} style={{alignSelf:'top'}}/>
         </div>
       </div>
     );
