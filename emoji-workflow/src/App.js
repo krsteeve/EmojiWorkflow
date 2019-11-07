@@ -12,10 +12,10 @@ var images = [];
 
 export default class App extends React.Component {
   state = {
-    src: null,
+    eyesSrc: null,
     backgroundImage:blankEyes,
     aspectRatio:1,
-    atReactionImage:null,
+    atReactionSrc:null,
     atReactionAspectRatio:1,
     yOffset:0,
     xOffset:0,
@@ -23,6 +23,7 @@ export default class App extends React.Component {
     rotation:0,
     mirrorRightEye:false,
     mirrorLeftEye:false,
+    imageSourceType:"file"
   }
 
   importAll(r) {
@@ -32,51 +33,37 @@ export default class App extends React.Component {
     images = this.importAll(require.context('./faceImages/', false, /\.(png|jpe?g|svg)$/));
   }
 
-  onSelectFile = e => {
-    if (e.target.files && e.target.files.length > 0) {
-      const reader = new FileReader()
-      reader.addEventListener(
-        'load',
-        () =>
-        {
-          var image = new Image();
+  onImageSourceAvailable = (src, type) => {
+    var image = new Image();
 
-          image.src = reader.result;
-      
-          image.onload = () => {
-              this.setState({
-                src: reader.result,
-                aspectRatio: image.width / image.height,
-              })
-          };
-        },
-        false
-      )
-      reader.readAsDataURL(e.target.files[0])
+    image.crossOrigin = "";
+    image.src = src;
+
+    image.onload = () => {
+      var newState = {aspectRatio: image.width / image.height};
+      newState[type] = src;
+      console.log(type)
+      this.setState(newState)
+    };
+  } 
+
+  onSelectImage = (type, e) => {
+    if (this.state.imageSourceType == "file") {
+      if (e.target.files && e.target.files.length > 0) {
+        const reader = new FileReader()
+        reader.addEventListener(
+          'load',
+          () =>
+          {
+            this.onImageSourceAvailable(reader.result, type);
+          },
+          false
+        )
+        reader.readAsDataURL(e.target.files[0])
+      }
     }
-  }
-
-  onSelectAtReactionFile = e => {
-    if (e.target.files && e.target.files.length > 0) {
-      const reader = new FileReader()
-      reader.addEventListener(
-        'load',
-        () =>
-        {
-          var image = new Image();
-
-          image.src = reader.result;
-      
-          image.onload = () => {
-              this.setState({
-                atReactionImage: reader.result,
-                atReactionAspectRatio: image.width / image.height,
-              })
-          };
-        },
-        false
-      )
-      reader.readAsDataURL(e.target.files[0])
+    else {
+      this.onImageSourceAvailable(e.target.value, type);
     }
   }
 
@@ -88,7 +75,7 @@ export default class App extends React.Component {
           <div>Emoji Workflow<br/>
             <Canvas
               backgroundImage={this.state.backgroundImage}
-              eyeSrc={this.state.src}
+              eyeSrc={this.state.eyesSrc}
               eyeSrcAspectRatio={this.state.aspectRatio}
               eyeXOffset={this.state.xOffset / 100}
               eyeYOffset={this.state.yOffset / 100}
@@ -99,13 +86,20 @@ export default class App extends React.Component {
             />
           </div>
           <div style={{}}>
-            <input type="file" onChange={this.onSelectFile} style={{alignSelf:'top'}}/>
+              <ul style={{listStyleType: "none"}}>
+                <li><input type={this.state.imageSourceType} onChange={this.onSelectImage.bind(this, "eyesSrc")}/></li>
+                <div>
+                  <button onClick={() => { this.setState({imageSourceType: "file"}) }}>File</button>
+                  &nbsp;
+                  <button onClick={() => { this.setState({imageSourceType: "url"}) }}>Url</button>
+                </div>
+              </ul>
             <div>
-              <img src={this.state.src} style={{maxHeight:100}}/>
+              <img src={this.state.eyesSrc} style={{maxHeight:100}}/>
             </div>
           </div>
           
-          <div className="ImageSettings">
+          <div style={{padding: "50px"}}>
               X Offset: {this.state.xOffset}%<br/>
               <Slider axis="x" x={this.state.xOffset} xmin={0} xmax={100} onChange={({x}) => this.setState({xOffset:x})}/><br/>
               Y Offset: {this.state.yOffset}%<br/>
@@ -133,11 +127,11 @@ export default class App extends React.Component {
         <div class="App">
             <div>At Reaction Workflow<br/>
               <CanvasAtReaction
-                backgroundImage={this.state.atReactionImage}
+                backgroundImage={this.state.atReactionSrc}
                 aspectRatio={this.state.atReactionAspectRatio}
               />
             </div>
-            <input type="file" onChange={this.onSelectAtReactionFile} style={{alignSelf:'top'}}/>
+            <input type={this.state.imageSourceType} onChange={this.onSelectImage.bind(this, "atReactionSrc")} style={{alignSelf:'top'}}/>
         </div>
       </div>
     );
