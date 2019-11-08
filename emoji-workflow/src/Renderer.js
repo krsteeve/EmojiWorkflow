@@ -188,6 +188,7 @@ export function loadTexture(gl, url) {
        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     }
   };
+  image.crossOrigin = "";
   image.src = url;
 
   return texture;
