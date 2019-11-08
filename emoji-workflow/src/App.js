@@ -17,12 +17,14 @@ export default class App extends React.Component {
     aspectRatio:1,
     atReactionSrc:null,
     atReactionAspectRatio:1,
-    yOffset:0,
-    xOffset:0,
-    scaleFactor:100,
-    rotation:0,
-    mirrorRightEye:false,
-    mirrorLeftEye:false,
+    eyesSettings: {
+      yOffset:0,
+      xOffset:0,
+      scaleFactor:100,
+      rotation:0,
+      mirrorRightEye:false,
+      mirrorLeftEye:false,
+    },
     imageSourceType:"file"
   }
 
@@ -77,12 +79,12 @@ export default class App extends React.Component {
               backgroundImage={this.state.backgroundImage}
               eyeSrc={this.state.eyesSrc}
               eyeSrcAspectRatio={this.state.aspectRatio}
-              eyeXOffset={this.state.xOffset / 100}
-              eyeYOffset={this.state.yOffset / 100}
-              eyeScaleFactor={this.state.scaleFactor / 100}
-              eyeRotation={this.state.rotation * Math.PI / 180}
-              mirrorRightEye={this.state.mirrorRightEye}
-              mirrorLeftEye={this.state.mirrorLeftEye}
+              eyeXOffset={this.state.eyesSettings.xOffset / 100}
+              eyeYOffset={this.state.eyesSettings.yOffset / 100}
+              eyeScaleFactor={this.state.eyesSettings.scaleFactor / 100}
+              eyeRotation={this.state.eyesSettings.rotation * Math.PI / 180}
+              mirrorRightEye={this.state.eyesSettings.mirrorRightEye}
+              mirrorLeftEye={this.state.eyesSettings.mirrorLeftEye}
             />
           </div>
           <div style={{}}>
@@ -100,16 +102,16 @@ export default class App extends React.Component {
           </div>
           
           <div style={{padding: "50px"}}>
-              X Offset: {this.state.xOffset}%<br/>
-              <Slider axis="x" x={this.state.xOffset} xmin={0} xmax={100} onChange={({x}) => this.setState({xOffset:x})}/><br/>
-              Y Offset: {this.state.yOffset}%<br/>
-              <Slider axis="x" x={this.state.yOffset} xmin={-100} xmax={100} onChange={({x}) => this.setState({yOffset:x})}/><br/>
-              Scale Factor: {this.state.scaleFactor}%<br/>
-              <Slider axis="x" x={this.state.scaleFactor} xmin={0} xmax={100} onChange={({x}) => this.setState({scaleFactor:x})}/><br/>
-              Rotation:  {this.state.rotation}&deg;<br/>
-              <Slider axis="x" x={this.state.rotation} xmin={-45} xmax={45} onChange={({x}) => this.setState({rotation:x})}/><br/>
-              Mirror Right Eye: <input type="checkbox" onChange={(e) => this.setState({mirrorRightEye:e.target.checked})}/><br/>
-              Mirror Left Eye: <input type="checkbox" onChange={(e) => this.setState({mirrorLeftEye:e.target.checked})}/><br/>
+              X Offset: {this.state.eyesSettings.xOffset}%<br/>
+              <Slider axis="x" x={this.state.eyesSettings.xOffset} xmin={0} xmax={100} onChange={({x}) => this.setState(p => ({eyesSettings: {...p.eyesSettings, xOffset:x}}))}/><br/>
+              Y Offset: {this.state.eyesSettings.yOffset}%<br/>
+              <Slider axis="x" x={this.state.eyesSettings.yOffset} xmin={-100} xmax={100} onChange={({x}) => this.setState(p => ({eyesSettings: {...p.eyesSettings, yOffset:x}}))}/><br/>
+              Scale Factor: {this.state.eyesSettings.scaleFactor}%<br/>
+              <Slider axis="x" x={this.state.eyesSettings.scaleFactor} xmin={0} xmax={100} onChange={({x}) => this.setState(p => ({eyesSettings: {...p.eyesSettings, scaleFactor:x}}))}/><br/>
+              Rotation:  {this.state.eyesSettings.rotation}&deg;<br/>
+              <Slider axis="x" x={this.state.eyesSettings.rotation} xmin={-45} xmax={45} onChange={({x}) => this.setState(p => ({eyesSettings: {...p.eyesSettings, rotation:x}}))}/><br/>
+              Mirror Right Eye: <input type="checkbox" onChange={(e) => { var target = e.target; this.setState(p => ({eyesSettings: {...p.eyesSettings, mirrorRightEye:target.checked}}))}}/><br/>
+              Mirror Left Eye: <input type="checkbox" onChange={(e) => { var target = e.target; this.setState((p) => ({eyesSettings: {...p.eyesSettings, mirrorLeftEye:target.checked}}))}}/><br/>
           </div>
         </div>
         <div>
