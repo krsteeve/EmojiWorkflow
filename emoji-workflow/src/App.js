@@ -69,6 +69,28 @@ export default class App extends React.Component {
     }
   }
 
+  onSelectBGFile = e => {
+    if (e.target.files && e.target.files.length > 0) {
+      const reader = new FileReader()
+      reader.addEventListener(
+        'load',
+        () =>
+        {
+          var image = new Image();
+
+          image.src = reader.result;
+
+          image.onload = () => {
+              this.setState({
+                backgroundImage: reader.result,
+              })
+          };
+        },
+        false
+      )
+      reader.readAsDataURL(e.target.files[0])
+    }
+  }
 
   render() {
     return (
