@@ -7,8 +7,10 @@ import ImagePicker from 'react-image-picker'
 import 'react-image-picker/dist/index.css'
 
 import blankEyes from './faceImages/blank_eyes.png'
+import blankEyesDefaults from './faceImages/blank_eyes.json'
 
 var images = [];
+var defaults = [];
 
 export default class App extends React.Component {
   state = {
@@ -17,22 +19,23 @@ export default class App extends React.Component {
     aspectRatio:1,
     atReactionSrc:null,
     atReactionAspectRatio:1,
-    eyesSettings: {
-      yOffset:0,
-      xOffset:0,
-      scaleFactor:100,
-      rotation:0,
-      mirrorRightEye:false,
-      mirrorLeftEye:false,
-    },
+    eyesSettings: blankEyesDefaults,
     imageSourceType:"file"
   }
 
-  importAll(r) {
-    return r.keys().map(r);
-  }
   componentWillMount() {
-    images = this.importAll(require.context('./faceImages/', false, /\.(png|jpe?g|svg)$/));
+    var req = require.context('./faceImages/', false, /\.(png|jpe?g|svg)$/);
+    var keys = req.keys(); // keys contains the file names eg "./blank_eyes.png"
+    images = keys.map(req);
+
+    keys.forEach(function(key) {
+      try {
+        var jsonFile = require('./faceImages/' + key.substring(2, key.lastIndexOf('.')) + '.json');
+        defaults.push(jsonFile);
+      } catch(e) {
+        defaults.push({});
+      }
+    });
   }
 
   onImageSourceAvailable = (src, type) => {
@@ -48,6 +51,10 @@ export default class App extends React.Component {
       this.setState(newState)
     };
   } 
+
+  builtinImageChosen = (image) => {
+    this.setState(state => ({backgroundImage:image.src, eyesSettings:{...state.eyesSettings, ...defaults[image.value]}}));
+  }
 
   onSelectImage = (type, e) => {
     if (this.state.imageSourceType == "file") {
@@ -140,9 +147,7 @@ export default class App extends React.Component {
           Choose a background image:<br/>
           <ImagePicker
             images={images.map((image, i) => ({src: image, value: i}))}
-            onPick={ (image) => {
-              this.setState({backgroundImage:image.src});
-            }}/>
+            onPick={this.builtinImageChosen}/>
         </div>
         <div>
           Or choose a custom image:
