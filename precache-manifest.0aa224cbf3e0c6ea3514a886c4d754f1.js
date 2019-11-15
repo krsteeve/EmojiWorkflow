@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e56fa55b5b6fc0705eb1280fa914fc5a",
+    "revision": "bcf79ae73ed4eb99f9114f4ad892988e",
     "url": "/EmojiWorkflow/index.html"
   },
   {
