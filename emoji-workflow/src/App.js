@@ -45,7 +45,7 @@ export default class App extends React.Component {
     image.src = src;
 
     image.onload = () => {
-      var newState = {aspectRatio: image.width / image.height};
+      var newState = type === "eyesSrc" ? {aspectRatio: image.width / image.height} : {atReactionAspectRatio: image.width / image.height};
       newState[type] = src;
       console.log(type)
       this.setState(newState)
