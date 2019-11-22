@@ -72,7 +72,7 @@ export default class App extends React.Component {
       }
     }
     else {
-      this.onImageSourceAvailable(e.target.value, type);
+      this.onImageSourceAvailable("https://cors-anywhere.herokuapp.com/" + e.target.value, type);
     }
   }
 
