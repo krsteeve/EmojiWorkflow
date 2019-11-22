@@ -209,7 +209,7 @@ export function drawStart(gl) {
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 }
 
-export function drawScene(gl, programInfo, buffers, texture, scale, translate, rotation) {
+export function drawScene(gl, programInfo, buffers, texture, scale, translate, rotation, flip) {
   // Create a perspective matrix, a special matrix that is
   // used to simulate the distortion of perspective in a camera.
   // Our field of view is 45 degrees, with a width/height
@@ -243,6 +243,8 @@ export function drawScene(gl, programInfo, buffers, texture, scale, translate, r
   
 
   mat4.translate(modelViewMatrix, modelViewMatrix, translate); 
+
+  mat4.scale(modelViewMatrix, modelViewMatrix, flip);
 
   mat4.rotateZ(modelViewMatrix, modelViewMatrix, rotation);
 

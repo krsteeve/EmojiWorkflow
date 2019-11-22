@@ -75,10 +75,10 @@ export default class Canvas extends Component {
           scaleY = scaleY * 1/this.props.aspectRatio;
         }
 
-        renderer.drawScene(gl, this.programInfo, this.buffers, this.bgTexture, [scaleX, scaleY, 1.0], [0, 0, 0], 0);
+        renderer.drawScene(gl, this.programInfo, this.buffers, this.bgTexture, [scaleX, scaleY, 1.0], [0, 0, 0], 0, [1.0, 1.0, 1.0]);
       }
 
-      renderer.drawScene(gl, this.programInfo, this.buffers, this.atReactionTexture, [.5, .5, 1.0], [-.5, -.6, 0], 0);
+      renderer.drawScene(gl, this.programInfo, this.buffers, this.atReactionTexture, [.5, .5, 1.0], [-.5, -.6, 0], 0, [1.0, 1.0, 1.0]);
 
       this.rafHandle = raf(this.renderGlScene.bind(this, gl, programs));
   }
