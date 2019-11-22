@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "315efe47fc181fc354f8461e60f1e491",
+    "revision": "78bd865b683862c0753dab95ff73b2ee",
     "url": "/EmojiWorkflow/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/EmojiWorkflow/static/css/2.5d2c437e.chunk.css"
   },
   {
-    "revision": "0c92ab3d89989be614f2",
+    "revision": "f625bb5dc2e39677f6a1",
     "url": "/EmojiWorkflow/static/css/main.d83df609.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/EmojiWorkflow/static/js/2.2622a5ac.chunk.js"
   },
   {
-    "revision": "0c92ab3d89989be614f2",
-    "url": "/EmojiWorkflow/static/js/main.8f3aa58e.chunk.js"
+    "revision": "f625bb5dc2e39677f6a1",
+    "url": "/EmojiWorkflow/static/js/main.dc689622.chunk.js"
   },
   {
     "revision": "0a4bab4e2633ad4442d8",
