@@ -240,9 +240,11 @@ export function drawScene(gl, programInfo, buffers, texture, scale, translate, r
   // Now move the drawing position a bit to where we want to
   // start drawing the square.
 
-  mat4.rotateZ(modelViewMatrix, modelViewMatrix, rotation);
+  
 
   mat4.translate(modelViewMatrix, modelViewMatrix, translate); 
+
+  mat4.rotateZ(modelViewMatrix, modelViewMatrix, rotation);
 
   mat4.scale(modelViewMatrix, modelViewMatrix, scale);
 
