@@ -2,7 +2,9 @@
     "xOffset":40,
     "yOffset":18,
     "scaleFactor":40,
-    "rotation":-9,
+    "rotation":9,
     "mirrorRightEye":false,
-    "mirrorLeftEye":false
+    "mirrorLeftEye":false,
+    "twoEyes":true,
+    "behindTemplate":false
 }

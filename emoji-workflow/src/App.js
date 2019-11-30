@@ -1,24 +1,21 @@
 import React from 'react';
 import './App.css';
 import Canvas from './Canvas';
-import CanvasAtReaction from './CanvasAtReaction'
 import Slider from 'react-input-slider';
 import ImagePicker from 'react-image-picker'
 import 'react-image-picker/dist/index.css'
 
-import blankEyes from './faceImages/blank_eyes.png'
-import blankEyesDefaults from './faceImages/blank_eyes.json'
+import blankEyes from './faceImages/nice_blank_eyes.png'
+import blankEyesDefaults from './faceImages/nice_blank_eyes.json'
 
 var images = [];
 var defaults = [];
 
 export default class App extends React.Component {
   state = {
-    eyesSrc: null,
+    src: null,
     backgroundImage:blankEyes,
     aspectRatio:1,
-    atReactionSrc:null,
-    atReactionAspectRatio:1,
     eyesSettings: blankEyesDefaults,
     imageSourceType:"file"
   }
@@ -38,17 +35,14 @@ export default class App extends React.Component {
     });
   }
 
-  onImageSourceAvailable = (src, type) => {
+  onImageSourceAvailable = (src) => {
     var image = new Image();
 
     image.crossOrigin = "";
     image.src = src;
 
     image.onload = () => {
-      var newState = type === "eyesSrc" ? {aspectRatio: image.width / image.height} : {atReactionAspectRatio: image.width / image.height};
-      newState[type] = src;
-      console.log(type)
-      this.setState(newState)
+      this.setState({src:src, aspectRatio: image.width / image.height})
     };
   } 
 
@@ -56,7 +50,7 @@ export default class App extends React.Component {
     this.setState(state => ({backgroundImage:image.src, eyesSettings:{...state.eyesSettings, ...defaults[image.value]}}));
   }
 
-  onSelectImage = (type, e) => {
+  onSelectImage = (e) => {
     if (this.state.imageSourceType == "file") {
       if (e.target.files && e.target.files.length > 0) {
         const reader = new FileReader()
@@ -64,7 +58,7 @@ export default class App extends React.Component {
           'load',
           () =>
           {
-            this.onImageSourceAvailable(reader.result, type);
+            this.onImageSourceAvailable(reader.result);
           },
           false
         )
@@ -72,7 +66,7 @@ export default class App extends React.Component {
       }
     }
     else {
-      this.onImageSourceAvailable("https://cors-anywhere.herokuapp.com/" + e.target.value, type);
+      this.onImageSourceAvailable("https://cors-anywhere.herokuapp.com/" + e.target.value);
     }
   }
 
@@ -101,24 +95,26 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div classname="Top">
-        <div className="App">
+      <div className="Top" style={{height:"100%", display:"flex", flexDirection:"column"}}>
+        <div className="App" style={{flexGrow:2}}>
           <div>Emoji Workflow<br/>
             <Canvas
               backgroundImage={this.state.backgroundImage}
-              eyeSrc={this.state.eyesSrc}
-              eyeSrcAspectRatio={this.state.aspectRatio}
-              eyeXOffset={this.state.eyesSettings.xOffset / 100}
-              eyeYOffset={this.state.eyesSettings.yOffset / 100}
-              eyeScaleFactor={this.state.eyesSettings.scaleFactor / 100}
-              eyeRotation={this.state.eyesSettings.rotation * Math.PI / 180}
-              mirrorRightEye={this.state.eyesSettings.mirrorRightEye}
-              mirrorLeftEye={this.state.eyesSettings.mirrorLeftEye}
+              src={this.state.src}
+              srcAspectRatio={this.state.aspectRatio}
+              xOffset={this.state.eyesSettings.xOffset / 100}
+              yOffset={this.state.eyesSettings.yOffset / 100}
+              scale={this.state.eyesSettings.scaleFactor / 100}
+              rotation={this.state.eyesSettings.rotation * Math.PI / 180}
+              mirrorRight={this.state.eyesSettings.mirrorRightEye}
+              mirrorLeft={this.state.eyesSettings.mirrorLeftEye}
+              twoImages={this.state.eyesSettings.twoEyes}
+              behindTemplate={this.state.eyesSettings.behindTemplate}
             />
           </div>
           <div style={{}}>
               <ul style={{listStyleType: "none"}}>
-                <li><input type={this.state.imageSourceType} onChange={this.onSelectImage.bind(this, "eyesSrc")}/></li>
+                <li><input type={this.state.imageSourceType} onChange={this.onSelectImage}/></li>
                 <div>
                   <button onClick={() => { this.setState({imageSourceType: "file"}) }}>File</button>
                   &nbsp;
@@ -126,41 +122,39 @@ export default class App extends React.Component {
                 </div>
               </ul>
             <div>
-              <img src={this.state.eyesSrc} style={{maxHeight:100}}/>
+              <img src={this.state.src} style={{maxHeight:100}}/>
             </div>
           </div>
           
           <div style={{padding: "50px"}}>
               X Offset: {this.state.eyesSettings.xOffset}%<br/>
-              <Slider axis="x" x={this.state.eyesSettings.xOffset} xmin={0} xmax={100} onChange={({x}) => this.setState(p => ({eyesSettings: {...p.eyesSettings, xOffset:x}}))}/><br/>
+              <Slider axis="x" x={this.state.eyesSettings.xOffset} xmin={-100} xmax={100} onChange={({x}) => this.setState(p => ({eyesSettings: {...p.eyesSettings, xOffset:x}}))}/><br/>
               Y Offset: {this.state.eyesSettings.yOffset}%<br/>
               <Slider axis="x" x={this.state.eyesSettings.yOffset} xmin={-100} xmax={100} onChange={({x}) => this.setState(p => ({eyesSettings: {...p.eyesSettings, yOffset:x}}))}/><br/>
-              Scale Factor: {this.state.eyesSettings.scaleFactor}%<br/>
-              <Slider axis="x" x={this.state.eyesSettings.scaleFactor} xmin={0} xmax={100} onChange={({x}) => this.setState(p => ({eyesSettings: {...p.eyesSettings, scaleFactor:x}}))}/><br/>
+              Scale: {this.state.eyesSettings.scaleFactor}%<br/>
+              <Slider axis="x" x={this.state.eyesSettings.scaleFactor} xmin={0} xmax={200} onChange={({x}) => this.setState(p => ({eyesSettings: {...p.eyesSettings, scaleFactor:x}}))}/><br/>
               Rotation:  {this.state.eyesSettings.rotation}&deg;<br/>
-              <Slider axis="x" x={this.state.eyesSettings.rotation} xmin={-45} xmax={45} onChange={({x}) => this.setState(p => ({eyesSettings: {...p.eyesSettings, rotation:x}}))}/><br/>
-              Mirror Right Eye: <input type="checkbox" onChange={(e) => { var target = e.target; this.setState(p => ({eyesSettings: {...p.eyesSettings, mirrorRightEye:target.checked}}))}}/><br/>
-              Mirror Left Eye: <input type="checkbox" onChange={(e) => { var target = e.target; this.setState((p) => ({eyesSettings: {...p.eyesSettings, mirrorLeftEye:target.checked}}))}}/><br/>
+              <Slider axis="x" x={this.state.eyesSettings.rotation} xmin={-90} xmax={90} onChange={({x}) => this.setState(p => ({eyesSettings: {...p.eyesSettings, rotation:x}}))}/><br/>
+              Mirror Right: <input type="checkbox" checked={this.state.eyesSettings.mirrorRightEye} onChange={(e) => { var target = e.target; this.setState(p => ({eyesSettings: {...p.eyesSettings, mirrorRightEye:target.checked}}))}}/><br/>
+              {this.state.eyesSettings.twoEyes &&
+                <p>Mirror Left: <input type="checkbox" checked={this.state.eyesSettings.mirrorLeftEye} onChange={(e) => { var target = e.target; this.setState((p) => ({eyesSettings: {...p.eyesSettings, mirrorLeftEye:target.checked}}))}}/></p>
+              }
           </div>
         </div>
-        <div>
-          Choose a background image:<br/>
-          <ImagePicker
-            images={images.map((image, i) => ({src: image, value: i}))}
-            onPick={this.builtinImageChosen}/>
-        </div>
-        <div>
-          Or choose a custom image:
-          <input type="file" onChange={this.onSelectBGFile} style={{alignSelf:'top'}}/>
-        </div>
-        <div class="App">
-            <div>At Reaction Workflow<br/>
-              <CanvasAtReaction
-                backgroundImage={this.state.atReactionSrc}
-                aspectRatio={this.state.atReactionAspectRatio}
-              />
+        <div className="App">
+          <div style={{display:"flex", flexDirection:"column", justifyContent:"center"}}>
+            <div className="App" style={{paddingTop:30}}>
+              Choose a background image:<br/>
+              <ImagePicker
+                images={images.map((image, i) => ({src: image, value: i}))}
+                onPick={this.builtinImageChosen}/>
             </div>
-            <input type={this.state.imageSourceType} onChange={this.onSelectImage.bind(this, "atReactionSrc")} style={{alignSelf:'top'}}/>
+            <div className="AppSmall">
+              Or choose a custom image:&nbsp;&nbsp;<input type="file" onChange={this.onSelectBGFile} style={{alignSelf:'top'}}/>
+            </div>
+          </div>
+        </div>
+        <div className="Footer" style={{height:40}}>
         </div>
       </div>
     );

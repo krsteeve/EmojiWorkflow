@@ -32,8 +32,8 @@ export default class Canvas extends Component {
     }
 
     componentDidUpdate(oldProps) {
-      if (oldProps.eyeSrc != this.props.eyeSrc) {
-        this.updateEyeTexture();
+      if (oldProps.src != this.props.src) {
+        this.updateSrcTexture();
       }
 
       if (oldProps.backgroundImage != this.props.backgroundImage) {
@@ -48,42 +48,52 @@ export default class Canvas extends Component {
       this.bgTexture = renderer.loadTexture(gl, this.props.backgroundImage)
     }
 
-    updateEyeTexture() {
-      var eyeSrc = this.props.eyeSrc;
-      if (eyeSrc != null) {
+    updateSrcTexture() {
+      var src = this.props.src;
+      if (src != null) {
         const canvas = document.querySelector('#glcanvas');
         const gl = canvas.getContext('webgl');
 
-        this.eyeTexture = renderer.loadTexture(gl, eyeSrc, gl.LINEAR);
+        this.srcTexture = renderer.loadTexture(gl, src, gl.LINEAR);
       } else {
-        this.eyeTexture = null;
+        this.srcTexture = null;
       }
     }
  
     renderGlScene(gl, programs) {
       renderer.drawStart(gl);
-      renderer.drawScene(gl, this.programInfo, this.buffers, this.bgTexture, [1.0, 1.0, 1.0], [0, 0, 0], 0, [1.0, 1.0, 1.0]);
 
-      if (this.eyeTexture) {
-        var x = this.props.eyeXOffset;
-        var y = this.props.eyeYOffset;
+      if (!this.props.behindTemplate) {
+        renderer.drawScene(gl, this.programInfo, this.buffers, this.bgTexture, [1.0, 1.0, 1.0], [0, 0, 0], 0, [1.0, 1.0, 1.0]);
+      }
 
-        var scaleX = this.props.eyeScaleFactor;
-        var scaleY = this.props.eyeScaleFactor;
-        if (this.props.eyeSrcAspectRatio < 1) {
-          scaleX = scaleX * this.props.eyeSrcAspectRatio;
-        } else if (this.props.eyeSrcAspectRatio > 1) {
-          scaleY = scaleY * 1/this.props.eyeSrcAspectRatio;
+      if (this.srcTexture) {
+        var x = this.props.xOffset;
+        var y = this.props.yOffset;
+
+        var scaleX = this.props.scale;
+        var scaleY = this.props.scale;
+        if (this.props.srcAspectRatio < 1) {
+          scaleX = scaleX * this.props.srcAspectRatio;
+        } else if (this.props.srcAspectRatio > 1) {
+          scaleY = scaleY * 1/this.props.srcAspectRatio;
         }
 
-        var mirrorXLeft = this.props.mirrorLeftEye ? -1.0 : 1.0;
-        var mirrorXRight = this.props.mirrorRightEye ? -1.0 : 1.0;
+        var mirrorXLeft = this.props.mirrorLeft ? -1.0 : 1.0;
+        var mirrorXRight = this.props.mirrorRight ? -1.0 : 1.0;
 
-        var rotationLeft = this.props.mirrorLeftEye ? this.props.eyeRotation : -this.props.eyeRotation;
-        var rotationRight = this.props.mirrorRightEye ? -this.props.eyeRotation : this.props.eyeRotation;
+        var rotationLeft = this.props.mirrorLeft ? -this.props.rotation : this.props.rotation;
+        var rotationRight = this.props.mirrorRight ? this.props.rotation : -this.props.rotation;
 
-        renderer.drawScene(gl, this.programInfo, this.buffers, this.eyeTexture, [scaleX, scaleY, 1.0], [-x, y, 0], rotationLeft, [mirrorXLeft, 1.0, 1.0]);
-        renderer.drawScene(gl, this.programInfo, this.buffers, this.eyeTexture, [scaleX, scaleY, 1.0], [x, y, 0], rotationRight, [mirrorXRight, 1.0, 1.0]);
+        if (this.props.twoImages) {
+          renderer.drawScene(gl, this.programInfo, this.buffers, this.srcTexture, [scaleX, scaleY, 1.0], [-x, y, 0], rotationLeft, [mirrorXLeft, 1.0, 1.0]);
+        }
+
+        renderer.drawScene(gl, this.programInfo, this.buffers, this.srcTexture, [scaleX, scaleY, 1.0], [x, y, 0], rotationRight, [mirrorXRight, 1.0, 1.0]);
+      }
+
+      if (this.props.behindTemplate) {
+        renderer.drawScene(gl, this.programInfo, this.buffers, this.bgTexture, [1.0, 1.0, 1.0], [0, 0, 0], 0, [1.0, 1.0, 1.0]);
       }
 
       this.rafHandle = raf(this.renderGlScene.bind(this, gl, programs));

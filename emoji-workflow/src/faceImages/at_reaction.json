@@ -1,0 +1,10 @@
+{
+    "xOffset":0,
+    "yOffset":0,
+    "scaleFactor":100,
+    "rotation":0,
+    "mirrorRightEye":false,
+    "mirrorLeftEye":false,
+    "twoEyes":false,
+    "behindTemplate":true
+}
