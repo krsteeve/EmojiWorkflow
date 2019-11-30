@@ -106,14 +106,16 @@ export default class App extends React.Component {
               yOffset={this.state.eyesSettings.yOffset / 100}
               scale={this.state.eyesSettings.scaleFactor / 100}
               rotation={this.state.eyesSettings.rotation * Math.PI / 180}
-              mirrorRight={this.state.eyesSettings.mirrorRightEye}
-              mirrorLeft={this.state.eyesSettings.mirrorLeftEye}
+              mirrorRight={this.state.eyesSettings.mirrorRight}
+              mirrorLeft={this.state.eyesSettings.mirrorLeft}
               twoImages={this.state.eyesSettings.twoEyes}
               behindTemplate={this.state.eyesSettings.behindTemplate}
             />
           </div>
-          <div style={{}}>
+          <div className="AppSmall">
               <ul style={{listStyleType: "none"}}>
+                <li>{this.state.eyesSettings.imageTitle}:</li>
+                <li><img src={this.state.src} style={this.state.src ? {height:100, border:"1px solid white"} : {height:100, width:100, border:"1px solid white"}}/></li>
                 <li><input type={this.state.imageSourceType} onChange={this.onSelectImage}/></li>
                 <div>
                   <button onClick={() => { this.setState({imageSourceType: "file"}) }}>File</button>
@@ -121,9 +123,6 @@ export default class App extends React.Component {
                   <button onClick={() => { this.setState({imageSourceType: "url"}) }}>Url</button>
                 </div>
               </ul>
-            <div>
-              <img src={this.state.src} style={{maxHeight:100}}/>
-            </div>
           </div>
           
           <div style={{padding: "50px"}}>

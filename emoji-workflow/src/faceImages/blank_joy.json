@@ -1,10 +1,11 @@
 {
+    "imageTitle":"Tears Image",
     "xOffset":74,
     "yOffset":-36,
     "scaleFactor":35,
     "rotation":-45,
-    "mirrorRightEye":true,
-    "mirrorLeftEye":false,
+    "mirrorRight":true,
+    "mirrorLeft":false,
     "twoEyes":true,
     "behindTemplate":false
 }
