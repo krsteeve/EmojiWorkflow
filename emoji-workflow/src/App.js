@@ -13,10 +13,8 @@ var defaults = [];
 
 export default class App extends React.Component {
   state = {
-    src: null,
     backgroundImage:blankEyes,
-    aspectRatio:1,
-    eyesSettings: blankEyesDefaults,
+    eyesSettings: {...blankEyesDefaults, src:null, aspectRatio:1},
     imageSourceType:"file"
   }
 
@@ -42,7 +40,7 @@ export default class App extends React.Component {
     image.src = src;
 
     image.onload = () => {
-      this.setState({src:src, aspectRatio: image.width / image.height})
+      this.setState(state => ({eyesSettings:{...state.eyesSettings, src:src, aspectRatio:image.width / image.height}}));
     };
   } 
 
@@ -109,15 +107,13 @@ export default class App extends React.Component {
           <div>Emoji Workflow<br/>
             <Canvas
               backgroundImage={this.state.backgroundImage}
-              src={this.state.src}
-              srcAspectRatio={this.state.aspectRatio}
               settings={this.transformPropsForCanvas(this.state.eyesSettings)}
             />
           </div>
           <div className="AppSmall">
               <ul style={{listStyleType: "none"}}>
                 <li>{this.state.eyesSettings.imageTitle}:</li>
-                <li><img src={this.state.src} style={this.state.src ? {height:100, border:"1px solid white"} : {height:100, width:100, border:"1px solid white"}}/></li>
+                <li><img src={this.state.eyesSettings.src} style={this.state.eyesSettings.src ? {height:100, border:"1px solid white"} : {height:100, width:100, border:"1px solid white"}}/></li>
                 <li><input type={this.state.imageSourceType} onChange={this.onSelectImage}/></li>
                 <div>
                   <button onClick={() => { this.setState({imageSourceType: "file"}) }}>File</button>

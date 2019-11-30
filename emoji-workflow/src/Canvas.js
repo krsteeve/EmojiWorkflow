@@ -29,8 +29,8 @@ export default class Canvas extends Component {
     }
 
     componentDidUpdate(oldProps) {
-      if (oldProps.src != this.props.src) {
-        this.updateSrcTexture();
+      if (oldProps.settings.src != this.props.settings.src) {
+        this.updateSrcTexture(this.props.settings.src);
       }
 
       if (oldProps.backgroundImage != this.props.backgroundImage) {
@@ -45,8 +45,7 @@ export default class Canvas extends Component {
       this.bgTexture = renderer.loadTexture(gl, this.props.backgroundImage)
     }
 
-    updateSrcTexture() {
-      var src = this.props.src;
+    updateSrcTexture(src) {
       if (src != null) {
         const canvas = document.querySelector('#glcanvas');
         const gl = canvas.getContext('webgl');
@@ -90,7 +89,7 @@ export default class Canvas extends Component {
       }
 
       if (this.srcTexture) {
-        this.renderDynamicElement(gl, this.srcTexture, this.props.srcAspectRatio, this.props.settings);
+        this.renderDynamicElement(gl, this.srcTexture, this.props.settings.aspectRatio, this.props.settings);
       }
 
       if (this.props.settings.behindTemplate) {
