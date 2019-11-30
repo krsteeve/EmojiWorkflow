@@ -21,10 +21,10 @@ export function initBuffers(gl) {
   // Now create an array of positions for the square.
 
   const positions = [
-     1.0,  1.0,
-    -1.0,  1.0,
+    1.0, 1.0,
+    -1.0, 1.0,
     -1.0, -1.0,
-     1.0, -1.0,
+    1.0, -1.0,
   ];
 
   // Now pass the list of positions into WebGL to build the
@@ -32,32 +32,32 @@ export function initBuffers(gl) {
   // JavaScript array, then use it to fill the current buffer.
 
   gl.bufferData(gl.ARRAY_BUFFER,
-                new Float32Array(positions),
-                gl.STATIC_DRAW);
+    new Float32Array(positions),
+    gl.STATIC_DRAW);
 
   const textureCoordBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, textureCoordBuffer);
 
   const textureCoordinates = [
     // Front
-    1.0,  0.0,
-    0.0,  0.0,
-    0.0,  1.0,
-    1.0,  1.0,
+    1.0, 0.0,
+    0.0, 0.0,
+    0.0, 1.0,
+    1.0, 1.0,
   ];
 
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoordinates),
-                gl.STATIC_DRAW);
+    gl.STATIC_DRAW);
 
   const tintTextureCoordBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, tintTextureCoordBuffer);
 
   const tintTextureCoordinates = [
     // Front
-    1.0,  0.0,
-    0.0,  0.0,
-    0.0,  1.0,
-    1.0,  1.0,
+    1.0, 0.0,
+    0.0, 0.0,
+    0.0, 1.0,
+    1.0, 1.0,
   ];
 
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(tintTextureCoordinates), gl.DYNAMIC_DRAW);
@@ -69,7 +69,7 @@ export function initBuffers(gl) {
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
 
   const indices = [
-    0, 1, 2,    2, 3, 0,
+    0, 1, 2, 2, 3, 0,
   ];
 
   gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,
@@ -90,7 +90,7 @@ export function updateTextureCoordinates(gl, textureCoordBuffer, coordinates) {
 
 export function getTextureShaderProgram(gl) {
   // Vertex shader program
-      
+
   const vsSource = `
   attribute vec4 aVertexPosition;
   attribute vec2 aTextureCoord;
@@ -164,28 +164,28 @@ export function loadTexture(gl, url) {
   const srcType = gl.UNSIGNED_BYTE;
   const pixel = new Uint8Array([0, 0, 255, 255]);  // opaque blue
   gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
-                width, height, border, srcFormat, srcType,
-                pixel);
+    width, height, border, srcFormat, srcType,
+    pixel);
 
   const image = new Image();
-  image.onload = function() {
+  image.onload = function () {
     gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
-                  srcFormat, srcType, image);
+      srcFormat, srcType, image);
 
     // WebGL1 has different requirements for power of 2 images
     // vs non power of 2 images so check if the image is a
     // power of 2 in both dimensions.
     if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
-       // Yes, it's a power of 2. Generate mips.
-       gl.generateMipmap(gl.TEXTURE_2D);
+      // Yes, it's a power of 2. Generate mips.
+      gl.generateMipmap(gl.TEXTURE_2D);
     } else {
-       // No, it's not a power of 2. Turn off mips and set
-       // wrapping to clamp to edge
-       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      // No, it's not a power of 2. Turn off mips and set
+      // wrapping to clamp to edge
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     }
   };
   image.crossOrigin = "";
@@ -240,9 +240,9 @@ export function drawScene(gl, programInfo, buffers, texture, scale, translate, r
   // Now move the drawing position a bit to where we want to
   // start drawing the square.
 
-  
 
-  mat4.translate(modelViewMatrix, modelViewMatrix, translate); 
+
+  mat4.translate(modelViewMatrix, modelViewMatrix, translate);
 
   mat4.scale(modelViewMatrix, modelViewMatrix, flip);
 
@@ -261,14 +261,14 @@ export function drawScene(gl, programInfo, buffers, texture, scale, translate, r
     const offset = 0;
     gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
     gl.vertexAttribPointer(
-        programInfo.attribLocations.vertexPosition,
-        numComponents,
-        type,
-        normalize,
-        stride,
-        offset);
+      programInfo.attribLocations.vertexPosition,
+      numComponents,
+      type,
+      normalize,
+      stride,
+      offset);
     gl.enableVertexAttribArray(
-        programInfo.attribLocations.vertexPosition);
+      programInfo.attribLocations.vertexPosition);
   }
 
   // Tell WebGL how to pull out the texture coordinates from
@@ -281,14 +281,14 @@ export function drawScene(gl, programInfo, buffers, texture, scale, translate, r
     const offset = 0;
     gl.bindBuffer(gl.ARRAY_BUFFER, buffers.textureCoord);
     gl.vertexAttribPointer(
-        programInfo.attribLocations.textureCoord,
-        numComponents,
-        type,
-        normalize,
-        stride,
-        offset);
+      programInfo.attribLocations.textureCoord,
+      numComponents,
+      type,
+      normalize,
+      stride,
+      offset);
     gl.enableVertexAttribArray(
-        programInfo.attribLocations.textureCoord);
+      programInfo.attribLocations.textureCoord);
   }
 
   // Tell WebGL which indices to use to index the vertices

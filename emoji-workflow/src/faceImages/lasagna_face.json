@@ -1,11 +1,15 @@
 {
-    "imageTitle":"Eyes Image",
-    "xOffset":46,
-    "yOffset":49,
-    "scale":32,
-    "rotation":0,
-    "mirrorRight":false,
-    "mirrorLeft":false,
-    "twoImages":true,
-    "behindTemplate":false
+  "settings": [
+    {
+      "imageTitle": "Eyes Image",
+      "xOffset": 46,
+      "yOffset": 49,
+      "scale": 32,
+      "rotation": 0,
+      "mirrorRight": false,
+      "mirrorLeft": false,
+      "twoImages": true,
+      "behindTemplate": false
+    }
+  ]
 }

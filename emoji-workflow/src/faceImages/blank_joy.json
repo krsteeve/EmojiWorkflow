@@ -1,11 +1,15 @@
 {
-    "imageTitle":"Tears Image",
-    "xOffset":74,
-    "yOffset":-36,
-    "scale":35,
-    "rotation":-45,
-    "mirrorRight":true,
-    "mirrorLeft":false,
-    "twoImages":true,
-    "behindTemplate":false
+  "settings": [
+    {
+      "imageTitle": "Tears Image",
+      "xOffset": 74,
+      "yOffset": -36,
+      "scale": 35,
+      "rotation": -45,
+      "mirrorRight": true,
+      "mirrorLeft": false,
+      "twoImages": true,
+      "behindTemplate": false
+    }
+  ]
 }
