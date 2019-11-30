@@ -2,10 +2,10 @@
     "imageTitle":"Background Image",
     "xOffset":0,
     "yOffset":0,
-    "scaleFactor":100,
+    "scale":100,
     "rotation":0,
     "mirrorRight":false,
     "mirrorLeft":false,
-    "twoEyes":false,
+    "twoImages":false,
     "behindTemplate":true
 }

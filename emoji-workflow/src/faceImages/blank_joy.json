@@ -2,10 +2,10 @@
     "imageTitle":"Tears Image",
     "xOffset":74,
     "yOffset":-36,
-    "scaleFactor":35,
+    "scale":35,
     "rotation":-45,
     "mirrorRight":true,
     "mirrorLeft":false,
-    "twoEyes":true,
+    "twoImages":true,
     "behindTemplate":false
 }

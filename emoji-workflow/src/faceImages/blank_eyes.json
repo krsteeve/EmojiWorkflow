@@ -2,10 +2,10 @@
     "imageTitle":"Eyes Image",
     "xOffset":40,
     "yOffset":18,
-    "scaleFactor":40,
+    "scale":40,
     "rotation":9,
     "mirrorRight":false,
     "mirrorLeft":false,
-    "twoEyes":true,
+    "twoImages":true,
     "behindTemplate":false
 }

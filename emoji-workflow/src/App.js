@@ -93,6 +93,15 @@ export default class App extends React.Component {
     }
   }
 
+  transformPropsForCanvas(settings) {
+    var result = Object.assign({}, settings);
+    result.xOffset /= 100;
+    result.yOffset /= 100;
+    result.scale /= 100;
+    result.rotation *= Math.PI / 180;
+    return result;
+  }
+
   render() {
     return (
       <div className="Top" style={{height:"100%", display:"flex", flexDirection:"column"}}>
@@ -102,14 +111,7 @@ export default class App extends React.Component {
               backgroundImage={this.state.backgroundImage}
               src={this.state.src}
               srcAspectRatio={this.state.aspectRatio}
-              xOffset={this.state.eyesSettings.xOffset / 100}
-              yOffset={this.state.eyesSettings.yOffset / 100}
-              scale={this.state.eyesSettings.scaleFactor / 100}
-              rotation={this.state.eyesSettings.rotation * Math.PI / 180}
-              mirrorRight={this.state.eyesSettings.mirrorRight}
-              mirrorLeft={this.state.eyesSettings.mirrorLeft}
-              twoImages={this.state.eyesSettings.twoEyes}
-              behindTemplate={this.state.eyesSettings.behindTemplate}
+              settings={this.transformPropsForCanvas(this.state.eyesSettings)}
             />
           </div>
           <div className="AppSmall">
@@ -125,18 +127,18 @@ export default class App extends React.Component {
               </ul>
           </div>
           
-          <div style={{padding: "50px"}}>
+          <div style={{fontSize:"calc(0px + 2vmin)"}}>
               X Offset: {this.state.eyesSettings.xOffset}%<br/>
               <Slider axis="x" x={this.state.eyesSettings.xOffset} xmin={-100} xmax={100} onChange={({x}) => this.setState(p => ({eyesSettings: {...p.eyesSettings, xOffset:x}}))}/><br/>
               Y Offset: {this.state.eyesSettings.yOffset}%<br/>
               <Slider axis="x" x={this.state.eyesSettings.yOffset} xmin={-100} xmax={100} onChange={({x}) => this.setState(p => ({eyesSettings: {...p.eyesSettings, yOffset:x}}))}/><br/>
-              Scale: {this.state.eyesSettings.scaleFactor}%<br/>
-              <Slider axis="x" x={this.state.eyesSettings.scaleFactor} xmin={0} xmax={200} onChange={({x}) => this.setState(p => ({eyesSettings: {...p.eyesSettings, scaleFactor:x}}))}/><br/>
+              Scale: {this.state.eyesSettings.scale}%<br/>
+              <Slider axis="x" x={this.state.eyesSettings.scale} xmin={0} xmax={200} onChange={({x}) => this.setState(p => ({eyesSettings: {...p.eyesSettings, scale:x}}))}/><br/>
               Rotation:  {this.state.eyesSettings.rotation}&deg;<br/>
               <Slider axis="x" x={this.state.eyesSettings.rotation} xmin={-90} xmax={90} onChange={({x}) => this.setState(p => ({eyesSettings: {...p.eyesSettings, rotation:x}}))}/><br/>
-              Mirror Right: <input type="checkbox" checked={this.state.eyesSettings.mirrorRightEye} onChange={(e) => { var target = e.target; this.setState(p => ({eyesSettings: {...p.eyesSettings, mirrorRightEye:target.checked}}))}}/><br/>
-              {this.state.eyesSettings.twoEyes &&
-                <p>Mirror Left: <input type="checkbox" checked={this.state.eyesSettings.mirrorLeftEye} onChange={(e) => { var target = e.target; this.setState((p) => ({eyesSettings: {...p.eyesSettings, mirrorLeftEye:target.checked}}))}}/></p>
+              Mirror Right: <input type="checkbox" checked={this.state.eyesSettings.mirrorRight} onChange={(e) => { var target = e.target; this.setState(p => ({eyesSettings: {...p.eyesSettings, mirrorRight:target.checked}}))}}/><br/>
+              {this.state.eyesSettings.twoImages &&
+                <p>Mirror Left: <input type="checkbox" checked={this.state.eyesSettings.mirrorLeft} onChange={(e) => { var target = e.target; this.setState((p) => ({eyesSettings: {...p.eyesSettings, mirrorLeft:target.checked}}))}}/></p>
               }
           </div>
         </div>
