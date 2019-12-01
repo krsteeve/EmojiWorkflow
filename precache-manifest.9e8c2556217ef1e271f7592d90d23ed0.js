@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "0ca911adfc79590e0125bf9b0950f8a4",
+    "revision": "9bbd9e9720869a13fda383017523da44",
     "url": "/EmojiWorkflow/index.html"
   },
   {
-    "revision": "a48cfe306a3da17c47b2",
+    "revision": "0b0d8f79f522f62298ff",
     "url": "/EmojiWorkflow/static/css/2.5d2c437e.chunk.css"
   },
   {
-    "revision": "089293fbb2d29823aa38",
+    "revision": "725c90b8aa604434943e",
     "url": "/EmojiWorkflow/static/css/main.6aeb0560.chunk.css"
   },
   {
-    "revision": "a48cfe306a3da17c47b2",
-    "url": "/EmojiWorkflow/static/js/2.caa63dc3.chunk.js"
+    "revision": "0b0d8f79f522f62298ff",
+    "url": "/EmojiWorkflow/static/js/2.7e7e155c.chunk.js"
   },
   {
-    "revision": "089293fbb2d29823aa38",
-    "url": "/EmojiWorkflow/static/js/main.6455be8b.chunk.js"
+    "revision": "725c90b8aa604434943e",
+    "url": "/EmojiWorkflow/static/js/main.c5a4c053.chunk.js"
   },
   {
     "revision": "f885500fbaa090bf4867",
@@ -28,8 +28,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/EmojiWorkflow/static/media/at_reaction.d0f245c6.png"
   },
   {
-    "revision": "6585e257a3996ee676d35f045b20d0c2",
-    "url": "/EmojiWorkflow/static/media/blank_eyes.6585e257.png"
+    "revision": "3c4c32b9a67272220a01147cef7d8f65",
+    "url": "/EmojiWorkflow/static/media/blank_eyes.3c4c32b9.png"
   },
   {
     "revision": "d7309f235227d6f3679a90b2aea874ee",
@@ -41,9 +41,5 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "1b36eb6a6e33feb30cbd0335cabed4fe",
     "url": "/EmojiWorkflow/static/media/lasagna_face.1b36eb6a.png"
-  },
-  {
-    "revision": "3c4c32b9a67272220a01147cef7d8f65",
-    "url": "/EmojiWorkflow/static/media/nice_blank_eyes.3c4c32b9.png"
   }
 ]);
