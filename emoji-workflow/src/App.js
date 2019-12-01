@@ -6,8 +6,8 @@ import Slider from 'react-input-slider';
 import ImagePicker from 'react-image-picker'
 import 'react-image-picker/dist/index.css'
 
-import blankEyes from './faceImages/nice_blank_eyes.png'
-import blankEyesDefaults from './faceImages/nice_blank_eyes.json'
+import blankEyes from './faceImages/blank_eyes.png'
+import blankEyesDefaults from './faceImages/blank_eyes.json'
 
 var images = [];
 var defaults = [];
@@ -15,8 +15,9 @@ var defaults = [];
 export default class App extends React.Component {
   state = {
     backgroundImage: blankEyes,
-    liveSettings: { ...blankEyesDefaults["settings"][0] },
-    initialSettings: { ...blankEyesDefaults["settings"][0] },
+    images: [],
+    liveSettings: blankEyesDefaults["settings"],
+    initialSettings: blankEyesDefaults["settings"],
     imageSourceType: "file"
   }
 
@@ -28,7 +29,7 @@ export default class App extends React.Component {
     keys.forEach(function (key) {
       try {
         var jsonFile = require('./faceImages/' + key.substring(2, key.lastIndexOf('.')) + '.json');
-        defaults.push(jsonFile["settings"][0]);
+        defaults.push(jsonFile["settings"]);
       } catch (e) {
         defaults.push({});
       }
@@ -36,29 +37,7 @@ export default class App extends React.Component {
   }
 
   builtinImageChosen = (image) => {
-    this.setState(state => ({ backgroundImage: image.src, liveSettings: { ...state.liveSettings, ...defaults[image.value] }, initialSettings: { ...state.liveSettings, ...defaults[image.value] } }));
-  }
-
-  onSelectBGFile = e => {
-    if (e.target.files && e.target.files.length > 0) {
-      const reader = new FileReader()
-      reader.addEventListener(
-        'load',
-        () => {
-          var image = new Image();
-
-          image.src = reader.result;
-
-          image.onload = () => {
-            this.setState({
-              backgroundImage: reader.result,
-            })
-          };
-        },
-        false
-      )
-      reader.readAsDataURL(e.target.files[0])
-    }
+    this.setState(state => ({ backgroundImage: image.src, liveSettings: defaults[image.value], initialSettings: defaults[image.value] }));
   }
 
   transformPropsForCanvas(settings) {
@@ -70,6 +49,37 @@ export default class App extends React.Component {
     return result;
   }
 
+  updateLiveSettings(index, image, settings) {
+    this.setState(state => {
+      const liveSettings = state.liveSettings.map((value, i) => {
+        if (index === i) {
+          return settings;
+        } else {
+          return value;
+        }
+      });
+
+      var images = state.images.map((value, i) => {
+        if (index === i) {
+          return image;
+        } else {
+          return value;
+        }
+      });
+
+      while (index >= images.length) {
+        if (images.length === index) {
+          images.push(image);
+        } else {
+          images.push({});
+        }
+      }
+
+      return { images: images, liveSettings: liveSettings }
+    }
+    );
+  }
+
   render() {
     return (
       <div className="Top" style={{ height: "100%", display: "flex", flexDirection: "column" }}>
@@ -77,13 +87,20 @@ export default class App extends React.Component {
           <div>Emoji Workflow<br />
             <Canvas
               backgroundImage={this.state.backgroundImage}
-              settings={this.transformPropsForCanvas(this.state.liveSettings)}
+              images={this.state.images}
+              settings={this.state.liveSettings.map(ls => this.transformPropsForCanvas(ls))}
             />
           </div>
-          <ImageSettings
-            initialSettings={this.state.initialSettings}
-            onChange={(settings) => this.setState({ liveSettings: settings })}
-          />
+          {this.state.initialSettings.map(
+            (value, index, array) =>
+              <ImageSettings
+                initialSettings={value}
+                image={this.state.images[index]}
+                onChange={(image, settings) => this.updateLiveSettings(index, image, settings)}
+              />
+
+          )}
+
         </div>
         <div className="App">
           <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
@@ -92,9 +109,6 @@ export default class App extends React.Component {
               <ImagePicker
                 images={images.map((image, i) => ({ src: image, value: i }))}
                 onPick={this.builtinImageChosen} />
-            </div>
-            <div className="AppSmall">
-              Or choose a custom image:&nbsp;&nbsp;<input type="file" onChange={this.onSelectBGFile} style={{ alignSelf: 'top' }} />
             </div>
           </div>
         </div>

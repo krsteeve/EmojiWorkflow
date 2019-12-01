@@ -26,11 +26,20 @@ export default class Canvas extends Component {
 
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+
+    this.srcTextures = [];
   }
 
   componentDidUpdate(oldProps) {
-    if (oldProps.settings.src != this.props.settings.src) {
-      this.updateSrcTexture(this.props.settings.src);
+    var imagesChanged = oldProps.images.length != this.props.images.length;
+    for (var i = 0; i < this.props.images.length && !imagesChanged; ++i) {
+      if (oldProps.images[i].src != this.props.images[i].src) {
+        imagesChanged = true;
+      }
+    }
+
+    if (imagesChanged) {
+      this.updateSrcTextures(this.props.images);
     }
 
     if (oldProps.backgroundImage != this.props.backgroundImage) {
@@ -45,15 +54,13 @@ export default class Canvas extends Component {
     this.bgTexture = renderer.loadTexture(gl, this.props.backgroundImage)
   }
 
-  updateSrcTexture(src) {
-    if (src != null) {
+  updateSrcTextures(images) {
+    this.srcTextures = images.map((image) => {
       const canvas = document.querySelector('#glcanvas');
       const gl = canvas.getContext('webgl');
 
-      this.srcTexture = renderer.loadTexture(gl, src, gl.LINEAR);
-    } else {
-      this.srcTexture = null;
-    }
+      return { texture: renderer.loadTexture(gl, image.src, gl.LINEAR), aspectRatio: image.aspectRatio };
+    });
   }
 
   renderDynamicElement(gl, texture, aspectRatio, settings) {
@@ -84,17 +91,19 @@ export default class Canvas extends Component {
   renderGlScene(gl, programs) {
     renderer.drawStart(gl);
 
-    if (!this.props.settings.behindTemplate) {
-      renderer.drawScene(gl, this.programInfo, this.buffers, this.bgTexture, [1.0, 1.0, 1.0], [0, 0, 0], 0, [1.0, 1.0, 1.0]);
-    }
+    this.srcTextures.forEach((element, index) => {
+      if (this.props.settings[index] && this.props.settings[index].behindTemplate) {
+        this.renderDynamicElement(gl, element.texture, element.aspectRatio, this.props.settings[index]);
+      }
+    });
 
-    if (this.srcTexture) {
-      this.renderDynamicElement(gl, this.srcTexture, this.props.settings.aspectRatio, this.props.settings);
-    }
+    renderer.drawScene(gl, this.programInfo, this.buffers, this.bgTexture, [1.0, 1.0, 1.0], [0, 0, 0], 0, [1.0, 1.0, 1.0]);
 
-    if (this.props.settings.behindTemplate) {
-      renderer.drawScene(gl, this.programInfo, this.buffers, this.bgTexture, [1.0, 1.0, 1.0], [0, 0, 0], 0, [1.0, 1.0, 1.0]);
-    }
+    this.srcTextures.forEach((element, index) => {
+      if (this.props.settings[index] && !this.props.settings[index].behindTemplate) {
+        this.renderDynamicElement(gl, element.texture, element.aspectRatio, this.props.settings[index]);
+      }
+    });
 
     this.rafHandle = raf(this.renderGlScene.bind(this, gl, programs));
   }

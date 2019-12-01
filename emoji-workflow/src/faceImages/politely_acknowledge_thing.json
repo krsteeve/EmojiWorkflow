@@ -1,0 +1,26 @@
+{
+  "settings": [
+    {
+      "imageTitle": "Person Image",
+      "xOffset": 48,
+      "yOffset": 12,
+      "scale": 56,
+      "rotation": 0,
+      "mirrorRight": false,
+      "mirrorLeft": false,
+      "twoImages": false,
+      "behindTemplate": true
+    },
+    {
+      "imageTitle": "Talking About Image",
+      "xOffset": -4,
+      "yOffset": -53,
+      "scale": 48,
+      "rotation": 0,
+      "mirrorRight": false,
+      "mirrorLeft": false,
+      "twoImages": false,
+      "behindTemplate": true
+    }
+  ]
+}

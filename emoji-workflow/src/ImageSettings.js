@@ -4,12 +4,13 @@ import Slider from 'react-input-slider';
 export default class Canvas extends Component {
 
   state = {
+    image: {},
     liveSettings: {},
     imageSourceType: "file"
   }
 
   componentDidMount() {
-    this.setState(state => ({ liveSettings: { ...state.liveSettings, ...this.props.initialSettings } }));
+    this.setState(state => ({ liveSettings: { ...state.liveSettings, ...this.props.initialSettings }, image: this.props.image }));
   }
 
   componentDidUpdate(oldProps) {
@@ -26,8 +27,8 @@ export default class Canvas extends Component {
 
     image.onload = () => {
       this.setState(state => (
-        { liveSettings: { ...state.liveSettings, src: src, aspectRatio: image.width / image.height } }),
-        () => this.props.onChange(this.state.liveSettings)
+        { image: { src: src, aspectRatio: image.width / image.height } }),
+        () => this.props.onChange(this.state.image, this.state.liveSettings)
       );
     };
   }
@@ -54,7 +55,7 @@ export default class Canvas extends Component {
   updateSettings(name, value) {
     this.setState(state => (
       { liveSettings: { ...state.liveSettings, [name]: value } }),
-      () => this.props.onChange(this.state.liveSettings)
+      () => this.props.onChange(this.state.image, this.state.liveSettings)
     );
   }
 
@@ -64,7 +65,7 @@ export default class Canvas extends Component {
         <div className="AppSmall">
           <ul style={{ listStyleType: "none" }}>
             <li>{this.state.liveSettings.imageTitle}:</li>
-            <li><img src={this.state.liveSettings.src} style={this.state.liveSettings.src ? { height: 100, border: "1px solid white" } : { height: 100, width: 100, border: "1px solid white" }} /></li>
+            <li><img src={this.state.image ? this.state.image.src : null} style={this.state.image ? { height: 100, border: "1px solid white" } : { height: 100, width: 100, border: "1px solid white" }} /></li>
             <li><input type={this.state.imageSourceType} onChange={this.onSelectImage} /></li>
             <div>
               <button onClick={() => { this.setState({ imageSourceType: "file" }) }}>File</button>&nbsp;
