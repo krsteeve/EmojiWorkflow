@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/EmojiWorkflow/static/css/main.7da73309.chunk.css",
-    "main.js": "/EmojiWorkflow/static/js/main.d06f0e97.chunk.js",
-    "main.js.map": "/EmojiWorkflow/static/js/main.d06f0e97.chunk.js.map",
+    "main.js": "/EmojiWorkflow/static/js/main.d78e6bee.chunk.js",
+    "main.js.map": "/EmojiWorkflow/static/js/main.d78e6bee.chunk.js.map",
     "runtime-main.js": "/EmojiWorkflow/static/js/runtime-main.c2b0e3d8.js",
     "runtime-main.js.map": "/EmojiWorkflow/static/js/runtime-main.c2b0e3d8.js.map",
     "static/css/2.5d2c437e.chunk.css": "/EmojiWorkflow/static/css/2.5d2c437e.chunk.css",
     "static/js/2.f4938056.chunk.js": "/EmojiWorkflow/static/js/2.f4938056.chunk.js",
     "static/js/2.f4938056.chunk.js.map": "/EmojiWorkflow/static/js/2.f4938056.chunk.js.map",
     "index.html": "/EmojiWorkflow/index.html",
-    "precache-manifest.83be407b42a8542834ad3e0267a3a98e.js": "/EmojiWorkflow/precache-manifest.83be407b42a8542834ad3e0267a3a98e.js",
+    "precache-manifest.26a933bf0e09d4e9d6eefcd6ca245071.js": "/EmojiWorkflow/precache-manifest.26a933bf0e09d4e9d6eefcd6ca245071.js",
     "service-worker.js": "/EmojiWorkflow/service-worker.js",
     "static/css/2.5d2c437e.chunk.css.map": "/EmojiWorkflow/static/css/2.5d2c437e.chunk.css.map",
     "static/css/main.7da73309.chunk.css.map": "/EmojiWorkflow/static/css/main.7da73309.chunk.css.map",
@@ -17,6 +17,7 @@
     "static/media/blank_eyes.png": "/EmojiWorkflow/static/media/blank_eyes.3c4c32b9.png",
     "static/media/blank_joy.png": "/EmojiWorkflow/static/media/blank_joy.d7309f23.png",
     "static/media/index.css": "/EmojiWorkflow/static/media/checkbcd1a436590360ed53ac2f46c76e43e4.bcd1a436.png",
+    "static/media/fingerguns.png": "/EmojiWorkflow/static/media/fingerguns.63f70a4d.png",
     "static/media/lasagna_face.png": "/EmojiWorkflow/static/media/lasagna_face.1b36eb6a.png"
   },
   "entrypoints": [
@@ -24,6 +25,6 @@
     "static/css/2.5d2c437e.chunk.css",
     "static/js/2.f4938056.chunk.js",
     "static/css/main.7da73309.chunk.css",
-    "static/js/main.d06f0e97.chunk.js"
+    "static/js/main.d78e6bee.chunk.js"
   ]
 }
