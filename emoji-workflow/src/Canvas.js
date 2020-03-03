@@ -55,6 +55,7 @@ export default class Canvas extends Component {
   }
 
   updateSrcTextures(images) {
+    images = images.filter((image) => image != null);
     this.srcTextures = images.map((image) => {
       const canvas = document.querySelector('#glcanvas');
       const gl = canvas.getContext('webgl');

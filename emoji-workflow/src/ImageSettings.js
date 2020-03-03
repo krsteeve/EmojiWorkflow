@@ -55,7 +55,11 @@ export default class Canvas extends Component {
   updateSettings(name, value) {
     this.setState(state => (
       { liveSettings: { ...state.liveSettings, [name]: value } }),
-      () => this.props.onChange(this.state.image, this.state.liveSettings)
+      () => {
+        if (this.state.image != null) {
+          this.props.onChange(this.state.image, this.state.liveSettings)
+        }
+      }
     );
   }
 
