@@ -35,6 +35,19 @@ html, body, div#root {
   color: white;
 }
 
+.Footer {
+  background-color: #282c34;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: calc(0px + 1vmin);
+  color: white;
+}
+
+.FooterGH {
+  font-size: calc(6px + 1vmin);
+}
+
 .ImageSettings {
   font-size: calc(6px + 2vmin);
 }

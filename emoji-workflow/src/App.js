@@ -9,6 +9,8 @@ import 'react-image-picker/dist/index.css'
 import blankEyes from './faceImages/blank_eyes.png'
 import blankEyesDefaults from './faceImages/blank_eyes.json'
 
+import GitHubButton from 'react-github-btn'
+
 var images = [];
 var defaults = [];
 
@@ -81,8 +83,12 @@ export default class App extends React.Component {
   }
 
   render() {
+    const year = (new Date()).getFullYear();
     return (
       <div className="Top" style={{ height: "100%", display: "flex", flexDirection: "column" }}>
+        <a href="https://github.com/krsteeve/EmojiWorkflow" style={{ position: 'absolute', top: 0, right: 0 }}>
+          <img width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_white_ffffff.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1" />
+        </a>
         <div className="App" style={{ flexGrow: 2 }}>
           <div>Emoji Workflow<br />
             <Canvas
@@ -112,7 +118,16 @@ export default class App extends React.Component {
             </div>
           </div>
         </div>
-        <div className="Footer" style={{ height: 40 }}>
+        <div className="Footer" style={{ padding: 20 }}>
+          <div className="FooterGH" style={{ paddingBottom: 10 }}>
+            Find Emoji Workflow on GitHub:{' '}
+            <GitHubButton href="https://github.com/krsteeve/EmojiWorkflow" data-icon="octicon-star" data-show-count="true" aria-label="Star krsteeve/EmojiWorkflow on GitHub">Star</GitHubButton>
+            {' '}
+            <GitHubButton href="https://github.com/krsteeve/EmojiWorkflow/fork" data-icon="octicon-repo-forked" data-show-count="true" aria-label="Fork krsteeve/EmojiWorkflow on GitHub">Fork</GitHubButton>
+            {' '}
+            <GitHubButton href="https://github.com/krsteeve/EmojiWorkflow/issues" data-icon="octicon-issue-opened" data-show-count="true" aria-label="Issue krsteeve/EmojiWorkflow on GitHub">Report an Issue</GitHubButton>
+          </div>
+          Copyright &copy; {year} Kelsey Steeves
         </div>
       </div>
     );
