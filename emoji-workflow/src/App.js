@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Canvas from './Canvas';
 import ImageSettings from './ImageSettings'
+import TextSettings from './TextSettings'
 import Slider from 'react-input-slider';
 import ImagePicker from 'react-image-picker'
 import 'react-image-picker/dist/index.css'
@@ -87,7 +88,7 @@ export default class App extends React.Component {
     return (
       <div className="Top" style={{ height: "100%", display: "flex", flexDirection: "column" }}>
         <a href="https://github.com/krsteeve/EmojiWorkflow" style={{ position: 'absolute', top: 0, right: 0 }}>
-          <img width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_white_ffffff.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1" />
+          <img width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_white_ffffff.png?resize=149%2C149" className="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1" />
         </a>
         <div className="App" style={{ flexGrow: 2 }}>
           <div>Emoji Workflow<br />
@@ -98,14 +99,23 @@ export default class App extends React.Component {
             />
           </div>
           {this.state.initialSettings.map(
-            (value, index, array) =>
-              <ImageSettings
-                initialSettings={value}
-                image={this.state.images[index]}
-                onChange={(image, settings) => this.updateLiveSettings(index, image, settings)}
-              />
+            (value, index, array) => {
 
-          )}
+              if (value.isText) {
+                return (<TextSettings
+                  initialSettings={value}
+                  image={this.state.images[index]}
+                  onChange={(image, settings) => this.updateLiveSettings(index, image, settings)}
+                />);
+              } else {
+                return (<ImageSettings
+                  initialSettings={value}
+                  image={this.state.images[index]}
+                  onChange={(image, settings) => this.updateLiveSettings(index, image, settings)}
+                />);
+              }
+
+            })}
 
         </div>
         <div className="App">

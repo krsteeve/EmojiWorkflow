@@ -1,0 +1,16 @@
+{
+  "settings": [
+    {
+      "imageTitle": "Button Text",
+      "xOffset": 0,
+      "yOffset": 0,
+      "scale": 100,
+      "rotation": 0,
+      "mirrorRight": false,
+      "mirrorLeft": false,
+      "twoImages": false,
+      "behindTemplate": false,
+      "isText": true
+    }
+  ]
+}
