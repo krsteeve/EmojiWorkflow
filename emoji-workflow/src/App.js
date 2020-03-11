@@ -118,7 +118,7 @@ export default class App extends React.Component {
           {this.state.initialSettings.map(
             (value, index, array) => {
 
-              if (value.text !== undefined) {
+              if (value.textStyle !== undefined) {
                 return (<TextSettings
                   initialSettings={value}
                   image={this.state.textImages[index]}

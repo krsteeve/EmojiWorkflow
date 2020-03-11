@@ -12,18 +12,24 @@ export default class TextSettings extends Component {
   canvasSize = { width: 200, height: 200 };
 
   componentDidMount() {
-    this.setState(state => ({ liveSettings: { ...state.liveSettings, ...this.props.initialSettings }, image: this.props.image }));
+    this.setState(state => ({ liveSettings: this.props.initialSettings, image: this.props.image }));
 
     if (this.props.image && this.props.image.text) {
       this.updateText(this.props.image.text);
     } else {
-      this.updateText(this.props.initialSettings.text);
+      this.updateText("This");
     }
   }
 
   componentDidUpdate(oldProps) {
     if (this.props.initialSettings !== oldProps.initialSettings) {
       this.setState(state => ({ liveSettings: { ...state.liveSettings, ...this.props.initialSettings } }));
+
+      if (this.props.image && this.props.image.text) {
+        this.updateText(this.props.image.text);
+      } else {
+        this.updateText("This");
+      }
     }
   }
 
@@ -33,14 +39,15 @@ export default class TextSettings extends Component {
   }
 
   updateText(text) {
+    var style = this.props.initialSettings.textStyle;
     var ctx = this.refs.textCanvas.getContext('2d');
     ctx.clearRect(0, 0, this.canvasSize.width, this.canvasSize.height);
-    ctx.font = '110px Roboto';
+    ctx.font = style.font;
     ctx.textAlign = 'center'
-    ctx.shadowColor = 'rgb(93, 119, 142)'
-    ctx.fillStyle = 'white'
-    ctx.shadowOffsetX = 5;
-    ctx.shadowOffsetY = 5;
+    ctx.shadowColor = style.shadowColor;
+    ctx.fillStyle = style.color;
+    ctx.shadowOffsetX = style.shadowOffsetX;
+    ctx.shadowOffsetY = style.shadowOffsetY;
     var textSize = ctx.measureText(text);
 
     console.log("kelsey", textSize.actualBoundingBoxDescent, textSize.actualBoundingBoxAscent);
@@ -78,7 +85,7 @@ export default class TextSettings extends Component {
         <div className="AppSmall">
           <ul style={{ listStyleType: "none" }}>
             <li>{this.state.liveSettings.imageTitle}:</li>
-            <li><canvas ref="textCanvas" width={this.canvasSize.width} height={this.canvasSize.height} style={{ height: 100, width: 100, border: "1px solid white", backgroundColor: "rgb(124, 159,189)" }} /></li>
+            <li><canvas ref="textCanvas" width={this.canvasSize.width} height={this.canvasSize.height} style={{ height: 100, width: 100, border: "1px solid white", backgroundColor: this.props.initialSettings.textStyle.previewBackgroundColor }} /></li>
             <li><input type="text" onChange={this.onTextChange} style={{ width: 100, marginRight: 20 }} value={this.state.liveSettings.text} /></li>
           </ul>
         </div>
