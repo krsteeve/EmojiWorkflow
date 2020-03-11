@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Canvas from './Canvas';
 import ImageSettings from './ImageSettings'
+import TextSettings from './TextSettings'
 import Slider from 'react-input-slider';
 import ImagePicker from 'react-image-picker'
 import 'react-image-picker/dist/index.css'
@@ -17,7 +18,9 @@ var defaults = [];
 export default class App extends React.Component {
   state = {
     backgroundImage: blankEyes,
+    renderables: [],
     images: [],
+    textImages: [],
     liveSettings: blankEyesDefaults["settings"],
     initialSettings: blankEyesDefaults["settings"],
     imageSourceType: "file"
@@ -51,6 +54,26 @@ export default class App extends React.Component {
     return result;
   }
 
+  replaceOrInsertValue(value, arr, index) {
+    var newArr = arr.map((oldValue, i) => {
+      if (index === i) {
+        return value;
+      } else {
+        return oldValue;
+      }
+    });
+
+    while (index >= newArr.length) {
+      if (newArr.length === index) {
+        newArr.push(value);
+      } else {
+        newArr.push({});
+      }
+    }
+
+    return newArr;
+  }
+
   updateLiveSettings(index, image, settings) {
     this.setState(state => {
       const liveSettings = state.liveSettings.map((value, i) => {
@@ -61,23 +84,18 @@ export default class App extends React.Component {
         }
       });
 
-      var images = state.images.map((value, i) => {
-        if (index === i) {
-          return image;
-        } else {
-          return value;
-        }
-      });
+      var textImages = state.textImages;
+      var images = state.images;
 
-      while (index >= images.length) {
-        if (images.length === index) {
-          images.push(image);
-        } else {
-          images.push({});
-        }
+      if (image && image.text) {
+        textImages = this.replaceOrInsertValue(image, textImages, index);
+      } else {
+        images = this.replaceOrInsertValue(image, images, index);
       }
 
-      return { images: images, liveSettings: liveSettings }
+      var renderables = this.replaceOrInsertValue(image, state.renderables, index);
+
+      return { renderables: renderables, images: images, textImages: textImages, liveSettings: liveSettings }
     }
     );
   }
@@ -87,25 +105,34 @@ export default class App extends React.Component {
     return (
       <div className="Top" style={{ height: "100%", display: "flex", flexDirection: "column" }}>
         <a href="https://github.com/krsteeve/EmojiWorkflow" style={{ position: 'absolute', top: 0, right: 0 }}>
-          <img width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_white_ffffff.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1" />
+          <img width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_white_ffffff.png?resize=149%2C149" className="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1" />
         </a>
         <div className="App" style={{ flexGrow: 2 }}>
           <div>Emoji Workflow<br />
             <Canvas
               backgroundImage={this.state.backgroundImage}
-              images={this.state.images}
+              images={this.state.renderables}
               settings={this.state.liveSettings.map(ls => this.transformPropsForCanvas(ls))}
             />
           </div>
           {this.state.initialSettings.map(
-            (value, index, array) =>
-              <ImageSettings
-                initialSettings={value}
-                image={this.state.images[index]}
-                onChange={(image, settings) => this.updateLiveSettings(index, image, settings)}
-              />
+            (value, index, array) => {
 
-          )}
+              if (value.textStyle !== undefined) {
+                return (<TextSettings
+                  initialSettings={value}
+                  image={this.state.textImages[index]}
+                  onChange={(image, settings) => this.updateLiveSettings(index, image, settings)}
+                />);
+              } else {
+                return (<ImageSettings
+                  initialSettings={value}
+                  image={this.state.images[index]}
+                  onChange={(image, settings) => this.updateLiveSettings(index, image, settings)}
+                />);
+              }
+
+            })}
 
         </div>
         <div className="App">

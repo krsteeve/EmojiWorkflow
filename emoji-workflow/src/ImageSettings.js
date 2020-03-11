@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Slider from 'react-input-slider';
+import Settings from './Settings';
 
-export default class Canvas extends Component {
+export default class ImageSettings extends Component {
 
   state = {
     image: {},
@@ -11,6 +11,8 @@ export default class Canvas extends Component {
 
   componentDidMount() {
     this.setState(state => ({ liveSettings: { ...state.liveSettings, ...this.props.initialSettings }, image: this.props.image }));
+
+    this.props.onChange(this.props.image, this.props.initialSettings);
   }
 
   componentDidUpdate(oldProps) {
@@ -52,9 +54,9 @@ export default class Canvas extends Component {
     }
   }
 
-  updateSettings(name, value) {
+  updateSettings = (newSettings) => {
     this.setState(state => (
-      { liveSettings: { ...state.liveSettings, [name]: value } }),
+      { liveSettings: newSettings }),
       () => {
         if (this.state.image != null) {
           this.props.onChange(this.state.image, this.state.liveSettings)
@@ -78,20 +80,7 @@ export default class Canvas extends Component {
           </ul>
         </div>
 
-        <div style={{ fontSize: "calc(0px + 2vmin)" }}>
-          X Offset: {this.state.liveSettings.xOffset}%<br />
-          <Slider axis="x" x={this.state.liveSettings.xOffset} xmin={-100} xmax={100} onChange={({ x }) => this.updateSettings("xOffset", x)} /><br />
-          Y Offset: {this.state.liveSettings.yOffset}%<br />
-          <Slider axis="x" x={this.state.liveSettings.yOffset} xmin={-100} xmax={100} onChange={({ x }) => this.updateSettings("yOffset", x)} /><br />
-          Scale: {this.state.liveSettings.scale}%<br />
-          <Slider axis="x" x={this.state.liveSettings.scale} xmin={0} xmax={200} onChange={({ x }) => this.updateSettings("scale", x)} /><br />
-          Rotation:  {this.state.liveSettings.rotation}&deg;<br />
-          <Slider axis="x" x={this.state.liveSettings.rotation} xmin={-90} xmax={90} onChange={({ x }) => this.updateSettings("rotation", x)} /><br />
-          Mirror Right: <input type="checkbox" checked={this.state.liveSettings.mirrorRight} onChange={(e) => this.updateSettings("mirrorRight", e.target.checked)} /><br />
-          {this.state.liveSettings.twoImages &&
-            <p>Mirror Left: <input type="checkbox" checked={this.state.liveSettings.mirrorLeft} onChange={(e) => this.updateSettings("mirrorLeft", e.target.checked)} /></p>
-          }
-        </div>
+        <Settings initialSettings={this.props.initialSettings} onChange={this.updateSettings} />
       </div>
     );
   }
