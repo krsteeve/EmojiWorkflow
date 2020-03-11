@@ -33,7 +33,11 @@ export default class Canvas extends Component {
   componentDidUpdate(oldProps) {
     var imagesChanged = oldProps.images.length != this.props.images.length;
     for (var i = 0; i < this.props.images.length && !imagesChanged; ++i) {
-      if (oldProps.images[i].src != this.props.images[i].src) {
+      if ((oldProps.images[i] && !this.props.images[i]) || (!oldProps.images[i] && this.props.images[i])) {
+        imagesChanged = true;
+      }
+
+      if (oldProps.images[i] && this.props.images[i] && oldProps.images[i].src != this.props.images[i].src) {
         imagesChanged = true;
       }
     }

@@ -18,7 +18,9 @@ var defaults = [];
 export default class App extends React.Component {
   state = {
     backgroundImage: blankEyes,
+    renderables: [],
     images: [],
+    textImages: [],
     liveSettings: blankEyesDefaults["settings"],
     initialSettings: blankEyesDefaults["settings"],
     imageSourceType: "file"
@@ -52,6 +54,26 @@ export default class App extends React.Component {
     return result;
   }
 
+  replaceOrInsertValue(value, arr, index) {
+    var newArr = arr.map((oldValue, i) => {
+      if (index === i) {
+        return value;
+      } else {
+        return oldValue;
+      }
+    });
+
+    while (index >= newArr.length) {
+      if (newArr.length === index) {
+        newArr.push(value);
+      } else {
+        newArr.push({});
+      }
+    }
+
+    return newArr;
+  }
+
   updateLiveSettings(index, image, settings) {
     this.setState(state => {
       const liveSettings = state.liveSettings.map((value, i) => {
@@ -62,23 +84,18 @@ export default class App extends React.Component {
         }
       });
 
-      var images = state.images.map((value, i) => {
-        if (index === i) {
-          return image;
-        } else {
-          return value;
-        }
-      });
+      var textImages = state.textImages;
+      var images = state.images;
 
-      while (index >= images.length) {
-        if (images.length === index) {
-          images.push(image);
-        } else {
-          images.push({});
-        }
+      if (image && image.text) {
+        textImages = this.replaceOrInsertValue(image, textImages, index);
+      } else {
+        images = this.replaceOrInsertValue(image, images, index);
       }
 
-      return { images: images, liveSettings: liveSettings }
+      var renderables = this.replaceOrInsertValue(image, state.renderables, index);
+
+      return { renderables: renderables, images: images, textImages: textImages, liveSettings: liveSettings }
     }
     );
   }
@@ -94,17 +111,17 @@ export default class App extends React.Component {
           <div>Emoji Workflow<br />
             <Canvas
               backgroundImage={this.state.backgroundImage}
-              images={this.state.images}
+              images={this.state.renderables}
               settings={this.state.liveSettings.map(ls => this.transformPropsForCanvas(ls))}
             />
           </div>
           {this.state.initialSettings.map(
             (value, index, array) => {
 
-              if (value.isText) {
+              if (value.text !== undefined) {
                 return (<TextSettings
                   initialSettings={value}
-                  image={this.state.images[index]}
+                  image={this.state.textImages[index]}
                   onChange={(image, settings) => this.updateLiveSettings(index, image, settings)}
                 />);
               } else {

@@ -13,6 +13,12 @@ export default class TextSettings extends Component {
 
   componentDidMount() {
     this.setState(state => ({ liveSettings: { ...state.liveSettings, ...this.props.initialSettings }, image: this.props.image }));
+
+    if (this.props.image && this.props.image.text) {
+      this.updateText(this.props.image.text);
+    } else {
+      this.updateText(this.props.initialSettings.text);
+    }
   }
 
   componentDidUpdate(oldProps) {
@@ -23,7 +29,10 @@ export default class TextSettings extends Component {
 
   onTextChange = (e) => {
     var text = e.target.value;
+    this.updateText(text);
+  }
 
+  updateText(text) {
     var ctx = this.refs.textCanvas.getContext('2d');
     ctx.clearRect(0, 0, this.canvasSize.width, this.canvasSize.height);
     ctx.font = '110px Roboto';
@@ -43,7 +52,10 @@ export default class TextSettings extends Component {
 
     image.onload = () => {
       this.setState(state => (
-        { image: { src: image.src, aspectRatio: image.width / image.height } }),
+        {
+          image: { src: image.src, aspectRatio: image.width / image.height, text: text },
+          liveSettings: { ...state.liveSettings, text: text }
+        }),
         () => this.props.onChange(this.state.image, this.state.liveSettings)
       );
     };
@@ -67,7 +79,7 @@ export default class TextSettings extends Component {
           <ul style={{ listStyleType: "none" }}>
             <li>{this.state.liveSettings.imageTitle}:</li>
             <li><canvas ref="textCanvas" width={this.canvasSize.width} height={this.canvasSize.height} style={{ height: 100, width: 100, border: "1px solid white", backgroundColor: "rgb(124, 159,189)" }} /></li>
-            <li><input type="text" onChange={this.onTextChange} style={{ width: 100, marginRight: 20 }} /></li>
+            <li><input type="text" onChange={this.onTextChange} style={{ width: 100, marginRight: 20 }} value={this.state.liveSettings.text} /></li>
           </ul>
         </div>
 
