@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import raf from 'raf';
 import * as renderer from './Renderer'
 
+import { saveAs } from 'file-saver';
+
 export default class Canvas extends Component {
 
   componentDidMount() {
     const canvas = document.querySelector('#glcanvas');
-    const gl = canvas.getContext('webgl', { premultipliedAlpha: false });
+    const gl = canvas.getContext('webgl', { premultipliedAlpha: false, preserveDrawingBuffer: true });
 
     // If we don't have a GL context, give up now
     if (!gl) {
@@ -110,12 +112,29 @@ export default class Canvas extends Component {
       }
     });
 
+    var darkPreviewCtx = document.querySelector('#darkPreview').getContext("2d");
+    darkPreviewCtx.clearRect(0, 0, 160, 160);
+    darkPreviewCtx.drawImage(document.querySelector('#glcanvas'), 0, 0);
+
     this.rafHandle = raf(this.renderGlScene.bind(this, gl, programs));
+  }
+
+  saveClicked = () => {
+    const canvas = document.querySelector('#glcanvas');
+    canvas.toBlob((blob) => {
+      saveAs(blob, this.props.saveAsName + ".png");
+    });
   }
 
   render() {
     return (
-      <canvas id="glcanvas" width="160" height="160" />
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div>
+          <canvas id="glcanvas" width="160" height="160" onContextMenu={(e) => e.preventDefault()} />
+          <canvas id="darkPreview" width="160" height="160" onContextMenu={(e) => e.preventDefault()} style={{ backgroundColor: 'black' }} />
+        </div>
+        <button onClick={this.saveClicked} style={{ width: "50%" }}>Save</button>
+      </div>
     );
   }
 }

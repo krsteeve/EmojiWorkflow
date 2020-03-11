@@ -14,10 +14,12 @@ import GitHubButton from 'react-github-btn'
 
 var images = [];
 var defaults = [];
+var names = [];
 
 export default class App extends React.Component {
   state = {
     backgroundImage: blankEyes,
+    saveAsName: "blank_eyes",
     renderables: [],
     images: [],
     textImages: [],
@@ -35,6 +37,7 @@ export default class App extends React.Component {
       try {
         var jsonFile = require('./faceImages/' + key.substring(2, key.lastIndexOf('.')) + '.json');
         defaults.push(jsonFile["settings"]);
+        names.push(key.substring(2, key.lastIndexOf('.')));
       } catch (e) {
         defaults.push({});
       }
@@ -42,7 +45,12 @@ export default class App extends React.Component {
   }
 
   builtinImageChosen = (image) => {
-    this.setState(state => ({ backgroundImage: image.src, liveSettings: defaults[image.value], initialSettings: defaults[image.value] }));
+    this.setState(state => ({
+      backgroundImage: image.src,
+      liveSettings: defaults[image.value],
+      initialSettings: defaults[image.value],
+      saveAsName: names[image.value]
+    }));
   }
 
   transformPropsForCanvas(settings) {
@@ -113,6 +121,7 @@ export default class App extends React.Component {
               backgroundImage={this.state.backgroundImage}
               images={this.state.renderables}
               settings={this.state.liveSettings.map(ls => this.transformPropsForCanvas(ls))}
+              saveAsName={this.state.saveAsName}
             />
           </div>
           {this.state.initialSettings.map(
