@@ -126,6 +126,16 @@ export default class Canvas extends Component {
     });
   }
 
+  copyClicked = () => {
+    const canvas = document.querySelector('#glcanvas');
+
+    canvas.toBlob((blob) => {
+      // eslint-disable-next-line no-undef
+      const item = new ClipboardItem({ "image/png": blob });
+      navigator.clipboard.write([item]);
+    });
+  }
+
   render() {
     return (
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -134,6 +144,7 @@ export default class Canvas extends Component {
           <canvas id="darkPreview" width="160" height="160" onContextMenu={(e) => e.preventDefault()} style={{ backgroundColor: 'black' }} />
         </div>
         <button onClick={this.saveClicked} style={{ width: "50%" }}>Save</button>
+        <button onClick={this.copyClicked} style={{ width: "50%" }}>Copy</button>
       </div>
     );
   }
