@@ -11,7 +11,7 @@
       "twoImages": false,
       "behindTemplate": false,
       "textStyle": {
-        "font": "110px Roboto",
+        "fontFace": "Roboto",
         "color": "white",
         "shadowColor": "rgb(93, 119, 142)",
         "shadowOffsetX": 5,

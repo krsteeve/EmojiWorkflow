@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Settings from './Settings';
 
+var FontFaceObserver = require('fontfaceobserver');
+
 export default class TextSettings extends Component {
 
   state = {
@@ -14,22 +16,28 @@ export default class TextSettings extends Component {
   componentDidMount() {
     this.setState(state => ({ liveSettings: this.props.initialSettings, image: this.props.image }));
 
-    if (this.props.image && this.props.image.text) {
-      this.updateText(this.props.image.text);
-    } else {
-      this.updateText("This");
-    }
+    var font = new FontFaceObserver(this.props.initialSettings.textStyle.fontFace);
+    font.load().then(() => {
+      if (this.props.image && this.props.image.text) {
+        this.updateText(this.props.image.text);
+      } else {
+        this.updateText("This");
+      }
+    });
   }
 
   componentDidUpdate(oldProps) {
     if (this.props.initialSettings !== oldProps.initialSettings) {
       this.setState(state => ({ liveSettings: { ...state.liveSettings, ...this.props.initialSettings } }));
 
-      if (this.props.image && this.props.image.text) {
-        this.updateText(this.props.image.text);
-      } else {
-        this.updateText("This");
-      }
+      var font = new FontFaceObserver(this.props.initialSettings.textStyle.fontFace);
+      font.load().then(() => {
+        if (this.props.image && this.props.image.text) {
+          this.updateText(this.props.image.text);
+        } else {
+          this.updateText("This");
+        }
+      });
     }
   }
 
@@ -42,7 +50,7 @@ export default class TextSettings extends Component {
     var style = this.props.initialSettings.textStyle;
     var ctx = this.refs.textCanvas.getContext('2d');
     ctx.clearRect(0, 0, this.canvasSize.width, this.canvasSize.height);
-    ctx.font = style.font;
+    ctx.font = "110px " + style.fontFace;
     ctx.textAlign = 'center'
     ctx.shadowColor = style.shadowColor;
     ctx.fillStyle = style.color;
