@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/EmojiWorkflow/static/css/main.086c4b7c.chunk.css",
-    "main.js": "/EmojiWorkflow/static/js/main.59e0bc50.chunk.js",
-    "main.js.map": "/EmojiWorkflow/static/js/main.59e0bc50.chunk.js.map",
+    "main.js": "/EmojiWorkflow/static/js/main.56e7c28f.chunk.js",
+    "main.js.map": "/EmojiWorkflow/static/js/main.56e7c28f.chunk.js.map",
     "runtime-main.js": "/EmojiWorkflow/static/js/runtime-main.db726bb7.js",
     "runtime-main.js.map": "/EmojiWorkflow/static/js/runtime-main.db726bb7.js.map",
     "static/css/2.5d2c437e.chunk.css": "/EmojiWorkflow/static/css/2.5d2c437e.chunk.css",
-    "static/js/2.b60dc1e3.chunk.js": "/EmojiWorkflow/static/js/2.b60dc1e3.chunk.js",
-    "static/js/2.b60dc1e3.chunk.js.map": "/EmojiWorkflow/static/js/2.b60dc1e3.chunk.js.map",
+    "static/js/2.168aebf3.chunk.js": "/EmojiWorkflow/static/js/2.168aebf3.chunk.js",
+    "static/js/2.168aebf3.chunk.js.map": "/EmojiWorkflow/static/js/2.168aebf3.chunk.js.map",
     "index.html": "/EmojiWorkflow/index.html",
-    "precache-manifest.f9a326b7f40ffa9ed85284eb9182dc1b.js": "/EmojiWorkflow/precache-manifest.f9a326b7f40ffa9ed85284eb9182dc1b.js",
+    "precache-manifest.7f79ab1770c9b03649574af4a96e3464.js": "/EmojiWorkflow/precache-manifest.7f79ab1770c9b03649574af4a96e3464.js",
     "service-worker.js": "/EmojiWorkflow/service-worker.js",
     "static/css/2.5d2c437e.chunk.css.map": "/EmojiWorkflow/static/css/2.5d2c437e.chunk.css.map",
     "static/css/main.086c4b7c.chunk.css.map": "/EmojiWorkflow/static/css/main.086c4b7c.chunk.css.map",
@@ -19,14 +19,13 @@
     "static/media/butt_unironically.png": "/EmojiWorkflow/static/media/butt_unironically.73c0dcc8.png",
     "static/media/button.png": "/EmojiWorkflow/static/media/button.690bd094.png",
     "static/media/index.css": "/EmojiWorkflow/static/media/checkbcd1a436590360ed53ac2f46c76e43e4.bcd1a436.png",
-    "static/media/fingerguns.png": "/EmojiWorkflow/static/media/fingerguns.63f70a4d.png",
-    "static/media/lasagna_face.png": "/EmojiWorkflow/static/media/lasagna_face.1b36eb6a.png"
+    "static/media/fingerguns.png": "/EmojiWorkflow/static/media/fingerguns.63f70a4d.png"
   },
   "entrypoints": [
     "static/js/runtime-main.db726bb7.js",
     "static/css/2.5d2c437e.chunk.css",
-    "static/js/2.b60dc1e3.chunk.js",
+    "static/js/2.168aebf3.chunk.js",
     "static/css/main.086c4b7c.chunk.css",
-    "static/js/main.59e0bc50.chunk.js"
+    "static/js/main.56e7c28f.chunk.js"
   ]
 }

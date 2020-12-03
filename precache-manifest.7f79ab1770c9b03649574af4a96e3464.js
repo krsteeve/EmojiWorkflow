@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "753551990712d9bf0e0d209bf5f2fae8",
+    "revision": "7d16c05cadbf7ef5a20c72ff41becf0f",
     "url": "/EmojiWorkflow/index.html"
   },
   {
-    "revision": "14a826aca4f6bff3e8ac",
+    "revision": "5ec67828d30a8290bf2d",
     "url": "/EmojiWorkflow/static/css/2.5d2c437e.chunk.css"
   },
   {
-    "revision": "f5410f48ea054509aeca",
+    "revision": "c346b7531c329fec778a",
     "url": "/EmojiWorkflow/static/css/main.086c4b7c.chunk.css"
   },
   {
-    "revision": "14a826aca4f6bff3e8ac",
-    "url": "/EmojiWorkflow/static/js/2.b60dc1e3.chunk.js"
+    "revision": "5ec67828d30a8290bf2d",
+    "url": "/EmojiWorkflow/static/js/2.168aebf3.chunk.js"
   },
   {
-    "revision": "f5410f48ea054509aeca",
-    "url": "/EmojiWorkflow/static/js/main.59e0bc50.chunk.js"
+    "revision": "c346b7531c329fec778a",
+    "url": "/EmojiWorkflow/static/js/main.56e7c28f.chunk.js"
   },
   {
     "revision": "f885500fbaa090bf4867",
@@ -49,9 +49,5 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "63f70a4d41619379893823a74de8663c",
     "url": "/EmojiWorkflow/static/media/fingerguns.63f70a4d.png"
-  },
-  {
-    "revision": "1b36eb6a6e33feb30cbd0335cabed4fe",
-    "url": "/EmojiWorkflow/static/media/lasagna_face.1b36eb6a.png"
   }
 ]);
