@@ -139,7 +139,7 @@ export default class Canvas extends Component {
   render() {
     return (
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <div>
+        <div style={{ display: "flex", flexDirection: "row" }}>
           <canvas id="glcanvas" width="160" height="160" onContextMenu={(e) => e.preventDefault()} />
           <canvas id="darkPreview" width="160" height="160" onContextMenu={(e) => e.preventDefault()} style={{ backgroundColor: 'black' }} />
         </div>

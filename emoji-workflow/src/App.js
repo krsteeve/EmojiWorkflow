@@ -114,7 +114,7 @@ export default class App extends React.Component {
         <a href="https://github.com/krsteeve/EmojiWorkflow" style={{ position: 'absolute', top: 0, right: 0 }}>
           <img width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_white_ffffff.png?resize=149%2C149" className="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1" />
         </a>
-        <div className="App" style={{ flexGrow: 2 }}>
+        <div className="App" style={{ display: "flex", padding: 20 }}>
           <div>Emoji Workflow<br />
             <Canvas
               backgroundImage={this.state.backgroundImage}
@@ -123,6 +123,8 @@ export default class App extends React.Component {
               saveAsName={this.state.saveAsName}
             />
           </div>
+        </div>
+        <div className="App" style={{ flexWrap: "wrap" }}>
           {this.state.initialSettings.map(
             (value, index, array) => {
 
@@ -144,13 +146,11 @@ export default class App extends React.Component {
 
         </div>
         <div className="App">
-          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <div className="App" style={{ paddingTop: 30 }}>
-              Choose a background image:<br />
-              <ImagePicker
-                images={images.map((image, i) => ({ src: image, value: i }))}
-                onPick={this.builtinImageChosen} />
-            </div>
+          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", paddingTop: 30 }}>
+            Choose a background image:<br />
+            <ImagePicker
+              images={images.map((image, i) => ({ src: image, value: i }))}
+              onPick={this.builtinImageChosen} />
           </div>
         </div>
         <div className="Footer" style={{ padding: 20 }}>

@@ -89,7 +89,7 @@ export default class TextSettings extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="AppSmall" style={{ flexWrap: "wrap", paddingLeft: 30 }}>
         <div className="AppSmall">
           <ul style={{ listStyleType: "none" }}>
             <li>{this.state.liveSettings.imageTitle}:</li>

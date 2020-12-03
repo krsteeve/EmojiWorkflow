@@ -67,17 +67,17 @@ export default class ImageSettings extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="AppSmall" style={{ flexWrap: "wrap", paddingLeft: 30 }}>
         <div className="AppSmall">
-          <ul style={{ listStyleType: "none" }}>
-            <li>{this.state.liveSettings.imageTitle}:</li>
-            <li><img src={this.state.image ? this.state.image.src : null} style={this.state.image ? { height: 100, border: "1px solid white" } : { height: 100, width: 100, border: "1px solid white" }} alt="" /></li>
-            <li><input type={this.state.imageSourceType} onChange={this.onSelectImage} /></li>
-            <div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ justifyContent: "center" }}>{this.state.liveSettings.imageTitle}:</div>
+            <img src={this.state.image ? this.state.image.src : null} style={this.state.image ? { height: 100, border: "1px solid white" } : { height: 100, width: 100, border: "1px solid white" }} alt="" />
+            <div>{this.state.imageSourceType == "url" ? "URL: " : ""} <input type={this.state.imageSourceType} onChange={this.onSelectImage} /></div>
+            <div style={{ alignItems: "center" }}>
               <button onClick={() => { this.setState({ imageSourceType: "file" }) }}>File</button>&nbsp;
               <button onClick={() => { this.setState({ imageSourceType: "url" }) }}>Url</button>
             </div>
-          </ul>
+          </div>
         </div>
 
         <Settings initialSettings={this.props.initialSettings} onChange={this.updateSettings} />

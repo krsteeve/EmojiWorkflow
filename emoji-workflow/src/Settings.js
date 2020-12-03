@@ -27,7 +27,7 @@ export default class ImageSettings extends Component {
 
   render() {
     return (
-      <div style={{ fontSize: "calc(0px + 2vmin)" }}>
+      <div style={{ fontSize: "calc(6px + 1vmin)" }}>
         X Offset: {this.state.liveSettings.xOffset}%<br />
         <Slider axis="x" x={this.state.liveSettings.xOffset} xmin={-100} xmax={100} onChange={({ x }) => this.updateSettings("xOffset", x)} /><br />
         Y Offset: {this.state.liveSettings.yOffset}%<br />
