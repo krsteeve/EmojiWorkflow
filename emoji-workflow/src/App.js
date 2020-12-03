@@ -3,7 +3,6 @@ import './App.css';
 import Canvas from './Canvas';
 import ImageSettings from './ImageSettings'
 import TextSettings from './TextSettings'
-import Slider from 'react-input-slider';
 import ImagePicker from 'react-image-picker'
 import 'react-image-picker/dist/index.css'
 

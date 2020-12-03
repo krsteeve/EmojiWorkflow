@@ -11,7 +11,7 @@ export default class ImageSettings extends Component {
   }
 
   componentDidUpdate(oldProps) {
-    if (this.props.initialSettings != oldProps.initialSettings) {
+    if (this.props.initialSettings !== oldProps.initialSettings) {
       this.setState(state => ({ liveSettings: { ...state.liveSettings, ...this.props.initialSettings } }));
     }
   }

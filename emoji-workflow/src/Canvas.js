@@ -33,13 +33,13 @@ export default class Canvas extends Component {
   }
 
   componentDidUpdate(oldProps) {
-    var imagesChanged = oldProps.images.length != this.props.images.length;
+    var imagesChanged = oldProps.images.length !== this.props.images.length;
     for (var i = 0; i < this.props.images.length && !imagesChanged; ++i) {
       if ((oldProps.images[i] && !this.props.images[i]) || (!oldProps.images[i] && this.props.images[i])) {
         imagesChanged = true;
       }
 
-      if (oldProps.images[i] && this.props.images[i] && oldProps.images[i].src != this.props.images[i].src) {
+      if (oldProps.images[i] && this.props.images[i] && oldProps.images[i].src !== this.props.images[i].src) {
         imagesChanged = true;
       }
     }
@@ -48,7 +48,7 @@ export default class Canvas extends Component {
       this.updateSrcTextures(this.props.images);
     }
 
-    if (oldProps.backgroundImage != this.props.backgroundImage) {
+    if (oldProps.backgroundImage !== this.props.backgroundImage) {
       this.updateBackgroundTexture();
     }
   }

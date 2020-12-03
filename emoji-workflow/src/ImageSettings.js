@@ -16,7 +16,7 @@ export default class ImageSettings extends Component {
   }
 
   componentDidUpdate(oldProps) {
-    if (this.props.initialSettings != oldProps.initialSettings) {
+    if (this.props.initialSettings !== oldProps.initialSettings) {
       this.setState(state => ({ liveSettings: { ...state.liveSettings, ...this.props.initialSettings } }));
     }
   }
@@ -36,7 +36,7 @@ export default class ImageSettings extends Component {
   }
 
   onSelectImage = (e) => {
-    if (this.state.imageSourceType == "file") {
+    if (this.state.imageSourceType === "file") {
       if (e.target.files && e.target.files.length > 0) {
         const reader = new FileReader()
         reader.addEventListener(
@@ -71,7 +71,7 @@ export default class ImageSettings extends Component {
         <div className="AppSmall">
           <ul style={{ listStyleType: "none" }}>
             <li>{this.state.liveSettings.imageTitle}:</li>
-            <li><img src={this.state.image ? this.state.image.src : null} style={this.state.image ? { height: 100, border: "1px solid white" } : { height: 100, width: 100, border: "1px solid white" }} /></li>
+            <li><img src={this.state.image ? this.state.image.src : null} style={this.state.image ? { height: 100, border: "1px solid white" } : { height: 100, width: 100, border: "1px solid white" }} alt="" /></li>
             <li><input type={this.state.imageSourceType} onChange={this.onSelectImage} /></li>
             <div>
               <button onClick={() => { this.setState({ imageSourceType: "file" }) }}>File</button>&nbsp;

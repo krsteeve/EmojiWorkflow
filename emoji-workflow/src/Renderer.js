@@ -1,5 +1,4 @@
 import * as glMatrix from 'gl-matrix'
-import { matcherHint } from 'jest-matcher-utils';
 
 //
 // initBuffers
@@ -195,7 +194,7 @@ export function loadTexture(gl, url) {
 }
 
 function isPowerOf2(value) {
-  return (value & (value - 1)) == 0;
+  return (value & (value - 1)) === 0;
 }
 
 export function drawStart(gl) {
